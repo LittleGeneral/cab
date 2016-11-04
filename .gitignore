@@ -1,0 +1,4 @@
+#过滤sftp文件、配置文件、缓存文件
+sftp-config.json
+config.php
+Runtime/
