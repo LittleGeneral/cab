@@ -7,7 +7,7 @@
 				<a href="index.html">控制台</a> <i class="icon-angle-right"></i>
 			</li>
 			<li>
-				<a href="#">订单</a>
+				<a href="#">车</a>
 			</li>
 		</ul>
 
@@ -17,12 +17,9 @@
 					<h2>
 						<i class="halflings-icon user"></i>
 						<span class="break"></span>
-						订单列表
+						车列表
 					</h2>
 					<div class="box-icon">
-						<a href="#" class="btn-setting">
-							<i class="halflings-icon wrench"></i>
-						</a>
 						<a href="#" class="btn-minimize">
 							<i class="halflings-icon chevron-up"></i>
 						</a>
@@ -36,70 +33,44 @@
 						<thead>
 							<tr>
 								<th>ID号</th>
-								<!-- <th>乘客id</th>
-								<th>车主id</th>
-								<th>乘客电话</th>
-								<th>车主电话</th>
 								<th>起始时间</th>
-								<th>起始地点</th>
+								<th>起始位置</th>
+								<th>同行/座位</th>
+								<th>起始位置图片</th>
 								<th>到达地点</th>
-								<th>座位</th>
-								<th>车颜色</th>
-								<th>车品牌</th> -->
-								<th>支付方式</th>
-								<th>乘车费用</th>
-								<th>约车状态</th>
-								<th>订单状态</th>
-								<!-- <th>是否启用</th> -->
+								<th>行程费用</th>
+								<th>状态</th>
+								<th>角色</th>
 								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
-							<foreach name="orders" item="vo">
+							<foreach name="cabs" item="vo">
 								<tr>
 									<td><{$vo['id']}></td>
-									<!-- <td class="center"><{$vo.passager_id}></td>
-									<td class="center"><{$vo.carowner_id}></td>
 									<td class="center"><{$vo.start_time}></td>
 									<td class="center"><{$vo.start_pos}></td>
-									<td class="center"><{$vo.end_pos}></td>
 									<td class="center"><{$vo.companion}></td>
-									<td class="center"><{$vo.car_color}></td>
-									<td class="center"><{$vo.car_brand}></td> -->
 									<td class="center">
-										<if condition="$vo.payment_type eq 0" >
-								            <font color="#FF0000">未选择</font>
-							            <elseif condition="$vo.payment_type eq 1"/>
-											<font color="#0000FF">微信</font>
-										<elseif condition="$vo.payment_type eq 2"/>
-											<font color="#0000FF">支付宝</font>
-								        </if>
+										<img src="/wgyt/cab<{$vo.start_pos_img}>" height="80" width="80">
 									</td>
+									<td class="center"><{$vo.end_pos}></td>
 									<td class="center"><{$vo.price}></td>
 									<td class="center"><{$vo.status}></td>
 									<td class="center">
-										<if condition="$vo.order_state eq 10" >
-								            <font color="#FF0000">未付款</font>
-							            <elseif condition="$vo.order_state eq 20"/>
-											<font color="#0000FF">已付款</font>
+										<if condition="$vo.type eq 0" >
+								            <font color="#FF0000">乘客</font>
+							            <elseif condition="$vo.type eq 1"/>
+							            	<!-- <a class="btn btn-info">车主</a> -->
+							            	<font color="#0000FF">车主</font>
+							            <elseif condition="$vo.type eq 2"/>
+											<font color="#0000FF">乘客</font>
 								        </if>
 									</td>
-									<!-- <td class="center"><{$vo[is_enable]==0?'停用':'启用'}></td> -->
 								<td class="center">
-									<!-- <a class="btn btn-success" href="<{:U('Community/index')}>">
-									-->
-									<!-- <a class="btn btn-success" href="#">
-										查看订单详情
-									</a> -->
-									<!-- <if condition="$vo[is_enable] eq 0">
-										<a class="btn btn-info" href="__URL__/enable/id/<{$vo.id}>">启用</a>
-									<else />
-										<a class="btn btn-danger" href="__URL__/disable/id/<{$vo.id}>" >停用</a>
-									</if> -->
-									<!-- <a class="btn btn-info" href="__URL__/modify/id/<{$vo.id}>">修改</a> -->
 									<a class="btn btn-danger" href="__URL__/del/id/<{$vo.id}>">删除</a>
 										<!-- <a class="btn btn-danger" href="javascript:(0);" onclick="doDel(this, '<{$vo.id}>')">删除</a> -->
-									</td>
+								</td>
 								</tr>
 							</foreach>
 						</tbody>
@@ -116,7 +87,7 @@
             if (window.confirm('确定删除id为'+id+'产品？')) {
                 //运用ajax实现无刷新删除
                 $.ajax({
-                    url: '<{:U("Goods/doDel")}>',
+                    url: '<{:U("Certification/doDel")}>',
                     type: 'get',
                     data: {'id': id},
                     success: function(data) {

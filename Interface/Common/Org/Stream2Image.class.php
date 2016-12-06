@@ -43,7 +43,8 @@ class Stream2Image {
         //创建文件夹
         @$this->create_dir ( $this->save_dir );
         //设置目录+图片完整路径
-        $this->save_fullpath = $this->save_dir . '/' . $this->save_name;
+        $this->save_fullpath = $this->save_dir  . $this->save_name;
+        // $this->save_fullpath = $this->save_dir . '/' . $this->save_name;
     }
     //兼容PHP4
     public function image($save_name) {
@@ -51,11 +52,13 @@ class Stream2Image {
     }
 
     public function stream2Image($data) {
+
         //二进制数据流
         //$data = file_get_contents ( 'php://input' ) ? file_get_contents ( 'php://input' ) : gzuncompress ( $GLOBALS ['HTTP_RAW_POST_DATA'] );
         //数据流不为空，则进行保存操作
         if (! empty( $data )) {
             $im = imagecreatefromstring($data);
+            // dump($im);die();
             if ($im !== false) {
                 //创建并写入数据流，然后保存文件
                 if (@$fp = fopen ( $this->save_fullpath, 'w+' )) {
@@ -63,7 +66,7 @@ class Stream2Image {
                     fclose ( $fp );
                     $baseurl = $this->save_fullpath;
                     if ( $this->getimageInfo ( $baseurl )) {
-                        //echo $baseurl;
+                        // echo $baseurl;
                         $this->print_errInfo = '';
                         return true;
                     } else {

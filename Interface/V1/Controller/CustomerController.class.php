@@ -1,245 +1,1 @@
-<?php
-/**
- * 客户接口API
- */
-namespace V1\Controller;
-
-use Common\Controller\ApiController;
-header('Content-Type: application/x-javascript; charset=UTF-8');
-
-class CustomerController extends ApiController{
-    public function index(){
-            $this->show(300,'无效接口');
-    }
-
-    // 约车添加或设置
-    public function appointCar()
-    {
-        if (IS_POST) {
-            if (!I('request.id')){
-                $this->show(300, '未获用户id参数或该id不存在');
-            }
-             // $id=84;
-             $id=I('request.id');
-             $shuttle = M('shuttle');
-             $info = $shuttle->where("users_id='$id'")->field('home_addr,company_addr,on_work_time,off_work_time')->find();
-
-             $start_time1=I('request.start_time');
-             $start_time2=$info['on_work_time'];
-             $start_time = (!empty($start_time1)) ? $start_time1 : $start_time2;
-
-             $start_pos1=I('request.start_pos','');
-             $start_pos2=$info['home_addr'];
-             $start_pos = (!empty($start_pos1)) ? $start_pos1 : $start_pos2;
-
-             $end_pos1=I('request.end_pos','');
-             $end_pos2=$info['company_addr'];
-             $end_pos = (!empty($end_pos1)) ? $end_pos1 : $end_pos2;
-
-             $data['users_id']=$id;
-             $data['companion'] =$companion= I('request.companion');
-             $data['start_time']=$start_time;
-             $data['start_pos']=$start_pos;
-             $data['end_pos']=$end_pos;
-
-            //实例化cab表
-            $cab=M('cab');
-            $obj = $cab->create($data);
-            if(!$obj){
-                $this->show(300,$cab->getError());
-            }
-            $users_id = $cab->where("users_id='$id'")->find();
-            if (empty($users_id)){
-                $result = $cab->data($data)->add();
-                if ($result === false){
-                   $this->show(300, '添加失败，请稍后再试');
-                }else{
-                    $this->show(200, 'success', $result);
-                }
-            }else{
-                $result = $cab->where("users_id = '$id'")->data($data)->save();
-                if ($result === false){
-                   $this->show(300, '修改失败，请重新操作');
-                }else{
-                    $this->show(200, 'success', $result);
-                }
-            }
-        }else{
-            $this->show(300, '请使用post提交');
-        }
-    }
-
-
-
-    // 上班约车（显示和修改）
-    public function onWorkAppointCar()
-    {
-        // $id=84;
-        if (!I('get.id')) {
-            $this->show(300, '未获用户id参数或该id不存在');
-        }
-        $id=I('get.id');
-        $shuttle = M('shuttle');
-        $info = $shuttle->where("users_id='$id'")->field('home_addr,company_addr,on_work_time,companion,off_work_time')->select();
-        if ($info){
-            $this->show(200, 'success', $info);
-        }else if($info == null){
-            $this->show(202, '暂无数据');
-        }else{
-            $this->show(300, '系统繁忙，请稍后再试');
-        }
-    }
-
-    // 设置同行人数
-    public function setCompaionNum()
-    {
-        if (IS_POST) {
-            if (!I('request.id')) {
-                $this->show(300, '未获取行程id参数或该id不存在');
-            }
-             // $id=84;
-             $data['id'] = $id = I('request.id');
-             $data['companion'] = I('request.companion');
-
-            //实例化shuttle表
-            $shuttle=M('shuttle');
-            $obj = $shuttle->create($data);
-            if(!$obj){
-                $this->show(300,$shuttle->getError());
-            }else{
-                $result = $shuttle->where("users_id = '$id'")->data($data)->save();
-                if ($result === false){
-                   $this->show(300, '修改失败，请重新操作');
-                }else{
-                    $this->show(200, 'success', $result);
-                }
-            }
-        }else{
-            $this->show(300, '请使用post提交');
-        }
-    }
-
-    public function testShow()
-    {
-        $str="84";
-        $id=intval($str);
-        echo $id;
-        dump($id);die();
-
-        $shuttle = M('shuttle');
-        $info = $shuttle->where("users_id='$id'")->field('home_addr,company_addr,on_work_time,companion')->select();
-        // $info = null;
-        if ($info){
-            $this->show(200, 'success',$info);
-        }else if($info == null){
-            $this->show(202, '暂无数据');
-        }else{
-            $this->show(202, '暂无数据');
-        }
-    }
-
-     //添加行程接口
-    public function add()
-    {
-            // $id=$users_id=I('request.users_id','')=2;
-            $id=30;
-            $users = M('users');
-            $customer_addr=$users->where("id='$id'")->field('address')->find();
-
-            $this->myApiPrint('success',200,$customer_addr);die();
-            $users_id = $users['id'];
-            $address = $users['address'];
-
-        if (IS_POST) {
-            // $data['users_id']=$users_id=I('post.users_id','');
-            $data['company_addr']=$company_addr=I('post.company_addr','');
-            $data['on_work_time']=$on_work_time=I('post.on_work_time','');
-            $data['off_work_time']=$off_work_time=I('post.off_work_time','');
-
-            $data['users_id']=$users_id=
-            $data['address']=$address=I('post.address','');
-
-            //实例化goods表
-            $goods=M('goods');
-            if (!$goods->create($data)) {
-               $this->myApiPrint($goods->getError());
-            }
-            $res = $goods->data($data)->add();
-            if ($res === false){
-               $this->show(300, '添加失败，请稍后再试');
-            }else{
-                $this->myApiPrint('success',200,$res);
-            }
-        }else{
-            $this->show(300, '请使用post提交');
-        }
-
-     }
-
-
-    /**
-     * 删除行程接口
-     * @DateTime 2016-09-18T14:50:31+0800
-     */
-    public function del(){
-        $id=I('post.id');
-        if (!$id || $id==null) {
-            $this->myApiPrint('未获取行程id参数',300);
-        }
-        $model=M('goods');
-        //查询要删除的信息
-        $data=$model->find($id);
-        if (!$data) {
-            $this->myApiPrint('没有该行程',300);
-        }
-        if(!empty($data['img'])){
-            $img=$data['img'];
-        }
-        //删除该条数据
-        if ($data) {
-            $res=$model->delete($id);
-            $unsimg="./Public/Admin/Uploads/".$img;
-            unlink($unsimg);
-
-            if ($res){
-                $this->myApiPrint('删除成功',200);
-            }else{
-                $this->myApiPrint('删除失败，请稍后再试',300);
-            }
-        }
-    }
-
-   //更新行程信息接口
-    public function update()
-    {
-         if (IS_POST) {
-            if (!I('post.id')) {
-                $this->show(300, '未获取行程id参数或该id不存在');
-            }
-             $data['id'] = $id = I('post.id');
-             $data['name'] = I('post.name');
-             $data['price'] = I('post.price');
-             $data['group_price'] = I('post.group_price');
-             $data['count'] = I('post.count');
-
-            //实例化goods表
-            $goods=M('goods');
-            // dump($goods);die();
-            $obj = $goods->create($data);
-            if(!$obj){
-                $this->myApiPrint($goods->getError());
-            }else{
-                $result = $goods->where("id = '$id'")->data($data)->save();
-                if ($result === false){
-                   $this->show(300, '修改失败，请重新操作');
-                }else{
-                    $this->myApiPrint('success',200,$result);
-                }
-            }
-        }else{
-            $this->show(300, '请使用post提交');
-        }
-
-    }
-
-}
+<?php/** * 乘客接口API */namespace V1\Controller;use Common\Controller\ApiController;header('Content-Type: application/x-javascript; charset=UTF-8');class CustomerController extends ApiController{    public function index(){            $this->show(300,'无效接口');    }    // 约车添加或设置    public function appointCar()    {        if (IS_POST) {            if (!I('request.id')){                $this->show(301, '未获用户id参数或该id不存在');            }             // $users_id=84;             $users_id=I('request.id');  //用户id 乘客id             $shuttle = M('shuttle');             $info = $shuttle->where("users_id='$users_id'")->field('home_addr,company_addr,on_work_time,off_work_time')->find();             $start_time1=I('request.start_time');             $start_time2=$info['on_work_time'];             $start_time = (!empty($start_time1)) ? $start_time1 : $start_time2;             $start_pos1=I('request.start_pos','');             $start_pos2=$info['home_addr'];             $start_pos = (!empty($start_pos1)) ? $start_pos1 : $start_pos2;             $end_pos1=I('request.end_pos','');             $end_pos2=$info['company_addr'];             $end_pos = (!empty($end_pos1)) ? $end_pos1 : $end_pos2;             $data['users_id']=$users_id;             $data['companion'] =$companion= I('request.companion');             $data['start_time']=$start_time;             $str_start_time=strtotime($start_time);             $data['str_start_time']=$str_start_time;             $data['start_pos']=$start_pos;             $data['end_pos']=$end_pos;             $data['create_time']=time();            //实例化cab表            $cab=M('cab');            $obj = $cab->create($data);            if(!$obj){                $this->show(300,$cab->getError());            }else{                $result = $cab->data($data)->add();                if ($result === false){                   $this->show(302, '添加失败，请稍后再试');                }else{                    // $pageNum = I('get.pageNum',1);                    // $pageCount = I('get.pageCount',2);                    $timeDiff = 30 * 60;  //30分                    $smallTime = ($str_start_time-$timeDiff);                    $bigTime = ($str_start_time+$timeDiff);                    $map['c.start_pos'] = array(array('like',"%$start_pos%"),array('like',"%$start_pos"),array('like',"$start_pos%"),$start_pos,'or');                    $map['c.type'] = "1";                    $map['c.str_start_time'] = array(array('gt',$smallTime),array('lt',$bigTime));                    $where['p.passby_pos'] =$start_pos;                    $where['c.type'] =1;                    // 途径地                    $cabList1 = $cab->alias('c')                                ->join('LEFT JOIN passby p ON c.users_id = p.users_id')                                ->join('LEFT JOIN users u ON c.users_id = u.id')                                ->join('LEFT JOIN certification c2 ON c.users_id = c2.users_id')                                ->field('u.tel,u.img,c2.car_color,c2.car_brand,c2.real_name,c.id,c.users_id,c.start_time,c.passby_pos,c.companion,c.start_pos,c.start_pos_img,c.end_pos,c.price,c.start_pos_img,c.type,c.status,c.create_time')                                ->where($where)                                // ->page($pageNum,$pageCount)                                ->select();                    $cabList2 = $cab->alias('c')                                ->join('LEFT JOIN users u ON c.users_id = u.id')                                ->join('LEFT JOIN certification c2 ON c.users_id = c2.users_id')                                ->field('u.tel,u.img,c2.car_color,c2.car_brand,c2.real_name,c.id,c.users_id,c.start_time,c.passby_pos,c.companion,c.start_pos,c.start_pos_img,c.end_pos,c.price,c.start_pos_img,c.type,c.status,c.create_time')                                ->where($map)                                ->select();                    $list = array_merge($cabList1,$cabList2);                    if (!$list) {                        $this->show(303,'无匹配数据',$list);                    }else{                        $this->show(200,'success',$list);                    }                }            }        }else{            $this->show(300, '请使用post提交');        }    }    // 乘客乘车与车主状态码    public function takeCarStatus()    {        if (IS_POST) {            if (!I('request.pid')){                $this->show(300, '未获乘客id参数或该id不存在');            }            if (!I('request.status')){                $this->show(300, '未获状态参数');            }            if (!I('request.id')){                $this->show(300, '未获id参数');            }            $pid=I('request.pid');  //乘客id 用户的id            $status = I('request.status');            $cid=I('request.id');  //cab表的id            $cab = M('cab');            $p_data = $cab->where("users_id='$pid'")->find();            $users_id = $cab->where("users_id='$pid'")->getField('users_id');            $p_cellphone = M('users')->where("id='$users_id'")->getField('tel');            $data['passager_id'] = $p_data['users_id'];            // $data['start_time'] = $p_data['start_time'];            // $data['start_pos'] = $p_data['start_pos'];            // $data['end_pos'] = $p_data['end_pos'];            $data['companion'] = $p_data['companion'];            // $data['price'] = $p_data['price'];            $data['create_time'] = time();            $data['order_state'] = 10;            $data['passager_cellphone'] = $p_cellphone;            // 车主信息            $c_data = $cab->where("id='$cid'")->find();            $users_id = $cab->where("id='$cid'")->getField('users_id');            $c_cellphone = M('users')->where("id='$users_id'")->getField('tel');            $data['cab_id'] = $c_data['id'];            $data['carowner_id'] = $c_data['users_id'];            $data['carowner_cellphone'] = $c_cellphone;            $data['price'] = $c_data['price'];            $data['start_time'] = $c_data['start_time'];            $data['start_pos'] = $c_data['start_pos'];            $data['end_pos'] = $c_data['end_pos'];            $data['start_pos_img'] = $c_data['start_pos_img,'];            // 从认证信息中获取车颜色和品牌            $certification = M('certification');            $certifications = $certification->where("users_id='$users_id'")->find();            $car_color = $certifications['car_color'];            $car_brand = $certifications['car_brand'];            $data['car_color'] = $car_color;            $data['car_brand'] = $car_brand;            // $data['status'] = 1;            //实例化cab表            $cab = M('cab');            $p_companion = $cab->where("id='$pid'")->getField('companion');  //2            $c_companion = $cab->where("id='$cid'")->getField('companion');  //5            $num = $c_companion-$p_companion;            $num1 = $c_companion+$p_companion;             //实例化order表            $order=M('order_cab');            $obj = $order->create($data);            if(!$obj){                $this->show(300,$order->getError());            }            // $cabs_id = $order->where("cab_id='$cid'")->find();            $cabs_id = $order->where("cab_id='$cid'")->getField('cab_id');            $state = $order->where("cab_id='$cid'")->getField('status');            // dump($state);die();            if (empty($cabs_id)) {                $result = $order->data($data)->add();                if ($result === false){                   $this->show(300, '添加失败，请稍后再试');                }else{                    $orderInfo = $order->where("cab_id = '$cid'")->select();                    $this->show(200, 'success',$orderInfo);                }            }else{                switch ($status) {                        case 1:                            $order->where("cab_id = '$cid'")->setField('status',1);                            // $orderInfo = $order->where("cab_id = '$cid'")->select();                            $where['cab_id'] = $cid;                            $data = $order->alias('o')                                           ->join('LEFT JOIN users u ON o.passager_id = u.id')                                           ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')                                           ->field('o.id,o.passager_id,o.carowner_id,u.img,c2.real_name,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')                                           ->where($where)                                           ->select();                            $this->show(200,'success',$data);                            break;                        case 2:                            if (isset($cabs_id) && ($state==2)) {                                $this->show(200,'success:已经约过该车');                                break;                            }else{                                $order->where("cab_id = '$cid'")->setField('status',2);                                $this->show(200,'success:等待车主确认',2);                                break;                            }                        case 3:                            // $order->where("cab_id = '$cid'")->setField('status',3);                            $orderInfo = $order->where("cab_id = '$cid'")->delete();  //乘客被拒绝或车主删除                            $this->show(200,'success:被拒绝',$orderInfo);                            break;                        case 4:                            // $order->where("cab_id = '$cid'")->setField('status',4);                            $this->show(200,'success:预约成功');                            break;                        case 5:                            // $order->where("cab_id = '$cid'")->setField('status',5);                            $this->show(200,'success:失约');                            break;                        case 6:                            // $order->where("cab_id = '$cid'")->setField('status',6);                            $this->show(200,'success:乘客已上车');                            break;                        case 7:                            // $order->where("cab_id = '$cid'")->setField('status',7);                            // $orderInfo = $order->where("cab_id = '$cid'")->select();                            $where['cab_id'] = $cid;                            $data = $order->alias('o')                                           ->join('LEFT JOIN users u ON o.passager_id = u.id')                                           ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')                                           ->field('o.id,o.passager_id,o.carowner_id,u.img,c2.real_name,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')                                           ->where($where)                                           ->select();                            if (!$data) {                                $this->show(300,'fail');                            }else{                                $this->show(200,'success:到达目的地',$data);                            }                            break;                        case 8:                            $cab->where("id = '$cid'")->setField('companion',($num+$p_companion));                            $order->where("cab_id = '$cid'")->setField('status',8);                            $this->show(200,'success:取消预约或删除',8);                            break;                        default:                            $this->show(300,'fail','服务器繁忙，请稍后再试');                            break;                }            }         }else{            $this->show(300, '请使用post提交');        }    }    // 获取乘客预约后列表(车主列表)(未处理)    public function getCarownerListByPid()    {        if (!I('request.pid')){            $this->show(301, '未获乘客id参数');        }        $passager_id=I('request.pid');        //实例化order表        $order=M('order_cab');        $where['o.passager_id'] = $passager_id;        $where['o.order_state'] = '10';        $data = $order->alias('o')                           ->join('LEFT JOIN users u ON o.passager_id = u.id')                           ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')                           ->field('o.id,o.passager_id,o.carowner_id,u.img,c2.real_name,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')                           ->where($where)                           ->select();        if ($data === false){               $this->show(302, '没有数据');            }else{                $this->show(200, 'success',$data);            }    }    // 乘客完成订单接口    public function finishOrder()    {        if (IS_POST) {            if (!I('request.id')){                $this->show(301, '未获id参数');            }            if (!I('request.payment_type')){                $this->show(302, '未获取支付类型 支付(付款)方式 1微信 2支付宝');            }            if (!I('request.order_state')){                $this->show(303, '未获取订单状态 订单状态：0(已取消)10(默认):未付款;20:已付款');            }            $id=I('request.id');            $data['payment_type']=I('request.payment_type');            $data['order_state']=I('request.order_state');            $data['finished_time']=time();            //实例化order表            $order=M('order_cab');            if ($data === false){                   $this->show(304, '操作失败');                }else{                    $result = $order->where("id = '$id'")->data($data)->save();                    $this->show(200, 'success',$result);                }        }else{            $this->show(300, '请使用post提交');        }    }    // 获取订单行程    public function getRouteBypid()    {        if (!I('request.pid')){            $this->show(300, '未获乘客id参数或该id不存在');        }         // $id=84;        $pid=I('request.pid');        //实例化order表        $order=M('order_cab');        $where['passager_id'] = $pid;        $where['order_state'] = '20';        $data = $order->where($where)->select();        if ($data === false){               $this->show(301, '没有数据');            }else{                $this->show(200, 'success',$data);            }    }}

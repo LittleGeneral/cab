@@ -141,9 +141,9 @@ class ApiController extends Controller
      * @param $type 图片类型，默认gif
      * @return 数组，booler 与 返回值
      */
-    public function myStream2Img($data,$uid,$type='.gif',$name=''){
+    public function myStream2Img($data,$uid,$type='.png',$name=''){
         $name = (empty($name))?time().$type:$name.$type;
-        $dir = '/Public/Upload/'.$uid.'/';
+        $dir = '/Public/Upload/App/'.$uid.'/';
         $s2i = new \Common\Org\Stream2Image($name,$dir);// 实例化上传类
         $re = $s2i->stream2Image(base64_decode($data));
         //@file_put_contents('a1_dir.log',$dir.$name.PHP_EOL,FILE_APPEND);

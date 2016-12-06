@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5422aba6-6668-4a34-84ba-c703c3c73980" name="wgyt" url="http://182.92.67.157">
+        <fileTransfer host="182.92.67.157" port="22" rootFolder="/var/www/scaleoa/wgyt/cab" accessType="SFTP" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
