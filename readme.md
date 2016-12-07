@@ -1,25 +1,7 @@
 
+cab online API [click here](http://www.scaleoa.com/wgyt/cab/Api/doc)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-asd
----
-
-
-
-
-###### 生成json文件命令
+###### swagger generate json file shell commond
 
 demo: 
 
@@ -27,7 +9,7 @@ demo:
 php /var/www/scaleoa/wgyt/cab/Api/vendor/zircote/swagger-php/bin/swagger /var/www/scaleoa/wgyt/cab/Api/demo/Examples -o /var/www/scaleoa/wgyt/cab/Api/demo/data.json
 ```
 
-小班车: 
+cab: 
 ```sh
 php /var/www/scaleoa/wgyt/cab/Api/vendor/zircote/swagger-php/bin/swagger /var/www/scaleoa/wgyt/cab/Api/cab -o /var/www/scaleoa/wgyt/cab/Api/cab/data.json
 ```
