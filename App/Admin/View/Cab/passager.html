@@ -7,7 +7,7 @@
 				<a href="index.html">控制台</a> <i class="icon-angle-right"></i>
 			</li>
 			<li>
-				<a href="#">认证</a>
+				<a href="#">车</a>
 			</li>
 		</ul>
 
@@ -17,7 +17,7 @@
 					<h2>
 						<i class="halflings-icon user"></i>
 						<span class="break"></span>
-						待认证列表
+						车列表
 					</h2>
 					<div class="box-icon">
 						<a href="#" class="btn-minimize">
@@ -33,43 +33,42 @@
 						<thead>
 							<tr>
 								<th>ID号</th>
-								<th>真实姓名</th>
-								<th>车主</th>
-								<th>驾驶证号</th>
-								<th>驾驶证</th>
-								<th>车牌号</th>
-								<th>车辆品牌</th>
-								<th>行驶证</th>
-								<th>行驶证注册日期</th>
-								<th>是否认证</th>
+								<th>角色</th>
+								<th>起始时间</th>
+								<th>起始位置</th>
+								<th>同行/座位</th>
+								<th>起始位置图片</th>
+								<th>到达地点</th>
+								<th>行程费用</th>
+								<th>状态</th>
 								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
-							<foreach name="certifications" item="vo">
+							<foreach name="cabs" item="vo">
 								<tr>
 									<td><{$vo['id']}></td>
-									<td class="center"><{$vo.real_name}></td>
-									<td class="center"><{$vo.car_owner}></td>
-									<td class="center"><{$vo.driver_licence_num}></td>
 									<td class="center">
-										<img src="/wgyt/cab<{$vo.driver_licence_img}>" height="80" width="80">
-									</td>
-									<td class="center"><{$vo.car_num}></td>
-									<td class="center"><{$vo.car_brand}></td>
-									<td class="center">
-										<img src="/wgyt/cab<{$vo.vehicle_license_img}>" height="80" width="80">
-									</td>
-									<td class="center"><{$vo.register_date}></td>
-									<td class="center">
-										<if condition="$vo.status eq 1" >
-											<a class="btn btn-info" href="__URL__/modify/id/<{$vo.id}>">点击通过认证</a>
+										<if condition="$vo.type eq 2" >
+								            <font color="#FF0000">乘客</font>
+							            <elseif condition="$vo.type eq 1"/>
+							            	<!-- <a class="btn btn-info">车主</a> -->
+							            	<font color="#0000FF">车主</font>
 								        </if>
 									</td>
+									<td class="center"><{$vo.start_time}></td>
+									<td class="center"><{$vo.start_pos}></td>
+									<td class="center"><{$vo.companion}></td>
+									<td class="center">
+										<img src="/wgyt/cab<{$vo.start_pos_img}>" height="80" width="80">
+									</td>
+									<td class="center"><{$vo.end_pos}></td>
+									<td class="center"><{$vo.price}></td>
+									<td class="center"><{$vo.status}></td>
 								<td class="center">
 									<a class="btn btn-danger" href="__URL__/del/id/<{$vo.id}>">删除</a>
 										<!-- <a class="btn btn-danger" href="javascript:(0);" onclick="doDel(this, '<{$vo.id}>')">删除</a> -->
-									</td>
+								</td>
 								</tr>
 							</foreach>
 						</tbody>

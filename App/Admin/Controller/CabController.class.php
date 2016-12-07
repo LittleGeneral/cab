@@ -5,7 +5,7 @@
 namespace Admin\Controller;
 use Think\Controller;
 class CabController extends CommonController {
-    //认证列表
+    //小班车列表
     public function index(){
         $cab = M('cab');
         $cabs = $cab->select();
@@ -13,22 +13,21 @@ class CabController extends CommonController {
         $this->display();
 	}
 
+    // 乘客列表
+    public function passager(){
+        $cab = M('cab');
+        $cabs = $cab->where('type = 2')->select();
+        $this->assign('cabs',$cabs);
+        $this->display();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // 车主列表
+    public function carowner(){
+        $cab = M('cab');
+        $cabs = $cab->where('type = 1')->select();
+        $this->assign('cabs',$cabs);
+        $this->display();
+    }
 
 
     /**

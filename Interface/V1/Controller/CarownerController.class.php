@@ -127,10 +127,19 @@ class CarownerController extends ApiController{
     {
         if (IS_POST) {
             if (!I('request.id')){
-                $this->show(300, '未获用户id参数或该id不存在');
+                $this->show(301, '未获用户id参数或该id不存在');
             }
-            // $id=84;
             $user_id=I('request.id');
+
+            //实例化cab表
+            $cab=M('cab');
+            // $order = M('order_cab');
+            // $id = $cab->where("users_id = '$user_id'")->getField('id');
+            // $cab_id = $order->where("carowner_id = '$id'")->getField('cab_id');
+            // if (empty($cab_id)) {
+            //     $this->show(200, 'success:有发布车程未完成');
+            // }
+
             $shuttle = M('shuttle');
             $info = $shuttle->where("users_id='$user_id'")->field('home_addr,company_addr,on_work_time,off_work_time')->find();
 
@@ -161,8 +170,6 @@ class CarownerController extends ApiController{
             if(!empty($start_pos_img)) $data['start_pos_img'] = $this->myStream2Img($start_pos_img,'User','.jpg',intval($start_time));
             $data['price'] = I('request.price');
 
-            //实例化cab表
-            $cab=M('cab');
             $obj = $cab->create($data);
             if(!$obj){
                 $this->show(300,$cab->getError());
@@ -170,13 +177,13 @@ class CarownerController extends ApiController{
 //                $cab->where("users_id = '$user_id'")->setField('type',0);
                 $result = $cab->data($data)->add();
                 if ($result === false){
-                    $this->show(300, '添加失败，请稍后再试');
+                    $this->show(302, '添加失败，请稍后再试');
                 }else{
                     $this->show(200, 'success',1);
                 }
             }
         }else{
-            $this->show(300, '请使用post提交');
+            $this->show(303, '请使用post提交');
         }
     }
 
@@ -273,9 +280,9 @@ class CarownerController extends ApiController{
         $where['o.carowner_id'] = $carowner_id;
         $where['o.order_state'] = '10';
         $data = $order->alias('o')
-                           ->join('LEFT JOIN users u ON o.carowner_id = u.id')
-                           ->join('LEFT JOIN property p ON o.carowner_id = u.id')
-                           ->field('o.id,o.passager_id,o.carowner_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->join('LEFT JOIN users u ON o.passager_id = u.id')
+                           // ->join('LEFT JOIN property p ON o.passager_id = u.id')
+                           ->field('o.id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
                            ->where($where)
                            ->select();
         if ($data === false){

@@ -8,7 +8,7 @@ class OrderController extends CommonController {
 
     // 订单列表
     public function index(){
-        $order = M('order');
+        $order = M('order_cab');
         // $where['order_state']='20';
         $orders = $order->where($where)->select();
         $this->assign('orders',$orders);
@@ -20,7 +20,7 @@ class OrderController extends CommonController {
      */
     public function del(){
         $id=I('get.id');
-        $order=M('order');
+        $order=M('order_cab');
         //删除该条数据
         $result=$order->delete($id);
         if($result){

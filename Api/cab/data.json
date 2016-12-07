@@ -1,0 +1,1620 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "\u5c0f\u73ed\u8f66",
+        "description": "swagger\u5728\u7ebfapi  \u5982\u679c\u4e0d\u60f3\u6362\u63a5\u53e3url\uff0c\u8fd8\u6309\u7167\u539f\u6765\u7684\u4f20\u503c\u5c31\u884c\u4e86\uff0c\u90fd\u80fd\u7528 \u4f8b\u5b50\uff1a\u83b7\u53d6\u884c\u7a0b\uff1a\u539f\u6765\u7684URL:http://www.scaleoa.com/wgyt/cab/interface.php?m=V1&c=Common&a=getRoute&id=84 \u7b49\u4e8e \u73b0\u5728\u7684URL:http://www.scaleoa.com/wgyt/cab/interface.php/V1/Common/getRoute?id=84 ===============================================\u5b57\u6bb5\u6ce8\u91ca\uff1ahttp://www.scaleoa.com/wgyt/cab/Api/doc/field.html",
+        "version": "1.0.0"
+    },
+    "host": "www.scaleoa.com",
+    "basePath": "/wgyt/cab/interface.php",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/V1/Carowner/isCertification": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u5224\u65ad\u662f\u5426\u8ba4\u8bc1",
+                "description": "\u901a\u8fc7\u7528\u6237id\u6765\u5224\u65ad\u8f66\u4e3b\u8ba4\u8bc1\u72b6\u6001",
+                "operationId": "isCertification",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u7cfb\u7edf\u7e41\u5fd9\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/certification": {
+            "post": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u9a7e\u7167\u8ba4\u8bc1",
+                "description": "\u586b\u5199\u8f66\u4e3b\u9a7e\u7167\u4fe1\u606f\u8fdb\u884c\u8ba4\u8bc1",
+                "operationId": "certification",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "real_name",
+                        "in": "query",
+                        "description": "\u771f\u5b9e\u59d3\u540d",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "driver_licence_num",
+                        "in": "query",
+                        "description": "\u9a7e\u9a76\u8bc1\u53f7\u7801",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "car_num",
+                        "in": "query",
+                        "description": "\u8f66\u724c\u53f7",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "driver_licence_img",
+                        "in": "formData",
+                        "description": "\u9a7e\u9a76\u8bc1\u56fe\u7247",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
+                        "name": "car_owner",
+                        "in": "query",
+                        "description": "\u8f66\u4e3b",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "car_brand",
+                        "in": "query",
+                        "description": "\u8f66\u8f86\u54c1\u724c",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "car_color",
+                        "in": "query",
+                        "description": "\u8f66\u989c\u8272",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "vehicle_license_img",
+                        "in": "formData",
+                        "description": "\u884c\u9a76\u8bc1\u56fe\u7247",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
+                        "name": "register_date",
+                        "in": "query",
+                        "description": "\u884c\u9a76\u8bc1\u6ce8\u518c\u65e5\u671f",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u6dfb\u52a0\u6216\u4fee\u6539\u5931\u8d25\u6216\u8bf7\u4f7f\u7528post\u63d0\u4ea4\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/carOrder": {
+            "post": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u63a5\u5355",
+                "description": "\u586b\u5199\u8f66\u4e3b\u9a7e\u7167\u4fe1\u606f\u8fdb\u884c\u8ba4\u8bc1",
+                "operationId": "carOrder",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "start_time",
+                        "in": "query",
+                        "description": "\u8d77\u59cb\u65f6\u95f4",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "start_pos",
+                        "in": "query",
+                        "description": "\u8d77\u59cb\u4f4d\u7f6e",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "end_pos",
+                        "in": "query",
+                        "description": "\u5230\u8fbe\u4f4d\u7f6e",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "companion",
+                        "in": "query",
+                        "description": "\u5ea7\u4f4d\u6570",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "start_pos_img",
+                        "in": "formData",
+                        "description": "\u4e0a\u8f66\u5730\u70b9\u56fe\u7247",
+                        "required": false,
+                        "type": "file"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "\u884c\u7a0b\u8d39\u7528",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u8bf7\u6c42\u5931\u8d25\u6216\u8bf7\u4f7f\u7528post\u63d0\u4ea4\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/addPassbyPos": {
+            "post": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u6dfb\u52a0\u9014\u5f84\u5730\u70b9",
+                "description": "\u6dfb\u52a0\u9014\u5f84\u5730\u70b9",
+                "operationId": "addPassbyPos",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "passby_pos",
+                        "in": "query",
+                        "description": "\u9014\u5f84\u5730",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "passby_time",
+                        "in": "query",
+                        "description": "\u9014\u7ecf\u65f6\u95f4",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "passby_pos_img",
+                        "in": "formData",
+                        "description": "\u9014\u5f84\u5730\u7167\u7247",
+                        "required": false,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u8bf7\u6c42\u5931\u8d25\u6216\u8bf7\u4f7f\u7528post\u63d0\u4ea4\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/passbyList": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u83b7\u53d6\u9014\u5f84\u5730\u5217\u8868",
+                "description": "\u901a\u8fc7\u7528\u6237id\u6765\u83b7\u53d6\u9014\u5f84\u5730\u5217\u8868",
+                "operationId": "passbyList",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "fail"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/delPassbyPos": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u5220\u9664\u9014\u5f84\u5730",
+                "description": "\u901a\u8fc7id\u6765\u5220\u9664\u9014\u5f84\u5730",
+                "operationId": "delPassbyPos",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "fail\u6216id\u4e0d\u5b58\u5728"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/getCarownerDetailById": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u83b7\u53d6\u8f66\u4e3b\u53d1\u5e03\u8be6\u60c5",
+                "description": "\u901a\u8fc7\u8f66\u4e3bid\u83b7\u53d6\u8f66\u4e3b\u53d1\u5e03\u7684\u6700\u65b0\u8be6\u60c5",
+                "operationId": "getCarownerDetailById",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u672a\u83b7\u8f66\u4e3bid\u53c2\u6570\u6216\u8be5id\u4e0d\u5b58\u5728"
+                    },
+                    "301": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/carOrderStatus": {
+            "post": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u8f66\u4e3b\u72b6\u6001\u7801\uff08\u5f85\u5904\u7406\uff09",
+                "description": "\u901a\u8fc7\u4fee\u6539\u72b6\u6001\u4e0e\u4e58\u5ba2\u8fdb\u884c\u4ea4\u4e92\u64cd\u4f5c \u6211\u6d4b\u8bd5\u7528\u7684 pid=1&id=67&status=1",
+                "operationId": "carOrderStatus",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "\u7528\u6237\u4e58\u5ba2id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u70b9\u51fb\u5217\u8868\u4e2d\u5bf9\u5e94\u7684id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "\u72b6\u6001\u7801 \u4e58\u8f66\u72b6\u6001\uff1a\u8f66\u4e3b/\u4e58\u5ba2 1\u53d1\u5e03/\u53d6\u6d88\u9884\u7ea6 2\u5f85\u786e\u8ba4/\u5f85\u8f66\u4e3b\u786e\u8ba4 3\u62d2\u7edd\u4e58\u5ba2/\u88ab\u62d2\u7edd 4\u7b49\u5f85\u4e58\u5ba2\u4e0a\u8f66/\u9884\u7ea6\u6210\u529f 5\u5df2\u5931\u7ea6/\u5931\u7ea6 6\u4e0a\u8f66 7\u5b8c\u6210 8\u53d6\u6d88\u6216\u5220\u9664",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "fail/\u8bf7\u4f7f\u7528post\u63d0\u4ea4"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/getCustomerListByCid": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u9884\u7ea6\u540e \u83b7\u53d6\u4e58\u5ba2\u5217\u8868(\u672a\u5904\u7406)",
+                "description": "\u901a\u8fc7\u8f66\u4e3bid\u83b7\u53d6\u4e58\u5ba2\u9884\u7ea6\u540e\u5217\u8868(\u4e58\u5ba2\u5217\u8868)(\u672a\u5904\u7406)",
+                "operationId": "getCustomerListByCid",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cid",
+                        "in": "query",
+                        "description": "\u8f66\u4e3bid",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "302": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "301": {
+                        "description": "\u672a\u83b7\u8f66\u4e3bid\u53c2\u6570"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Carowner/getOrderByCid": {
+            "get": {
+                "tags": [
+                    "carowner"
+                ],
+                "summary": "\u83b7\u53d6\u884c\u7a0b\u5217\u8868(\u53d1\u9001\u8ba2\u5355\u540e)",
+                "description": "\u901a\u8fc7\u8f66\u4e3bid\u83b7\u53d6\u884c\u7a0b\u5217\u8868  \u6211\u6d4b\u8bd5\u7684cid=66",
+                "operationId": "getOrderByCid",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cid",
+                        "in": "query",
+                        "description": "\u8f66\u4e3bid",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Carowner"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u672a\u83b7\u8f66\u4e3bid\u53c2\u6570\u6216\u8be5id\u4e0d\u5b58\u5728"
+                    },
+                    "301": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Common/getRoute": {
+            "get": {
+                "tags": [
+                    "common"
+                ],
+                "summary": "\u83b7\u53d6\u884c\u7a0b\u8bbe\u7f6e",
+                "description": "\u901a\u8fc7\u7528\u6237id\u83b7\u53d6\u884c\u7a0b\u8bbe\u7f6e",
+                "operationId": "getRoute",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Common"
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "300": {
+                        "description": "\u7cfb\u7edf\u7e41\u5fd9\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Common/setRoute": {
+            "post": {
+                "tags": [
+                    "common"
+                ],
+                "summary": "\u8bbe\u7f6e\u884c\u7a0b",
+                "description": "\u901a\u8fc7\u7528\u6237id\u4fee\u6539\u884c\u7a0b",
+                "operationId": "setRoute",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "home_addr",
+                        "in": "formData",
+                        "description": "\u5bb6\u5ead\u5730\u5740",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_addr",
+                        "in": "formData",
+                        "description": "\u516c\u53f8\u5730\u5740",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "on_work_time",
+                        "in": "formData",
+                        "description": "\u4e0a\u73ed\u65f6\u95f4",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "off_work_time",
+                        "in": "formData",
+                        "description": "\u4e0b\u73ed\u65f6\u95f4",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Common"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u6dfb\u52a0\u6216\u4fee\u6539\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Customer/appointCar": {
+            "post": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "\u4e58\u5ba2\u7ea6\u8f66",
+                "description": "\u7ea6\u8f66\u6dfb\u52a0\u6216\u8bbe\u7f6e",
+                "operationId": "appointCar",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u7528\u6237\u4e58\u5ba2id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "start_time",
+                        "in": "query",
+                        "description": "\u8d77\u59cb\u65f6\u95f4",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "start_pos",
+                        "in": "query",
+                        "description": "\u8d77\u59cb\u4f4d\u7f6e",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "end_pos",
+                        "in": "query",
+                        "description": "\u5230\u8fbe\u4f4d\u7f6e",
+                        "required": true,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "companion",
+                        "in": "query",
+                        "description": "\u540c\u884c\u4eba\u6570",
+                        "required": false,
+                        "type": "string",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Customer"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u65e0\u5339\u914d\u6570\u636e/\u8bf7\u4f7f\u7528post\u63d0\u4ea4"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Customer/takeCarStatus": {
+            "post": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "\u4e58\u5ba2\u4e58\u8f66\u72b6\u6001\u7801",
+                "description": "\u901a\u8fc7\u4fee\u6539\u72b6\u6001\u4e0e\u8f66\u4e3b\u8fdb\u884c\u4ea4\u4e92\u64cd\u4f5c \u6211\u6d4b\u8bd5\u7528\u7684 pid=1&id=67&status=1",
+                "operationId": "takeCarStatus",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "\u7528\u6237\u4e58\u5ba2id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u70b9\u51fb\u5217\u8868\u4e2d\u5bf9\u5e94\u8f66\u4e3b\u7684id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "\u72b6\u6001\u7801 \u4e58\u8f66\u72b6\u6001\uff1a\u8f66\u4e3b/\u4e58\u5ba2 1\u53d1\u5e03/\u53d6\u6d88\u9884\u7ea6 2\u5f85\u786e\u8ba4/\u5f85\u8f66\u4e3b\u786e\u8ba4 3\u62d2\u7edd\u4e58\u5ba2/\u88ab\u62d2\u7edd 4\u7b49\u5f85\u4e58\u5ba2\u4e0a\u8f66/\u9884\u7ea6\u6210\u529f 5\u5df2\u5931\u7ea6/\u5931\u7ea6 6\u4e0a\u8f66 7\u5b8c\u6210 8\u53d6\u6d88\u6216\u5220\u9664",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Customer"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "fail/\u8bf7\u4f7f\u7528post\u63d0\u4ea4"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Customer/getCarownerListByPid": {
+            "get": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "\u9884\u7ea6\u540e \u83b7\u53d6\u8f66\u4e3b\u5217\u8868(\u672a\u5904\u7406)",
+                "description": "\u901a\u8fc7\u7528\u6237id\u83b7\u53d6\u4e58\u5ba2\u9884\u7ea6\u540e\u5217\u8868(\u8f66\u4e3b\u5217\u8868)(\u672a\u5904\u7406)",
+                "operationId": "getCarownerListByPid",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Customer"
+                            }
+                        }
+                    },
+                    "302": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "301": {
+                        "description": "\u672a\u83b7\u4e58\u5ba2id\u53c2\u6570"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Customer/finishOrder": {
+            "post": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "\u4e58\u5ba2\u8ba2\u5355\u63d0\u4ea4\uff08\u5f85\u5904\u7406\uff09",
+                "description": "\u901a\u8fc7\u63d0\u4ea4\u652f\u4ed8\u7c7b\u578b\u548c\u8ba2\u5355\u72b6\u6001\u6765\u5b8c\u6210\u8ba2\u5355\uff08\u5f53\u4e58\u5ba2\u8ba2\u5355\u72b6\u6001\u8fdb\u51657\u65f6\uff0c\u83b7\u53d6\u8ba2\u5355\u4fe1\u606f\uff0c\u540c\u65f6\u5c06\u652f\u4ed8\u7c7b\u578b\u548c\u8ba2\u5355\u72b6\u6001\u7801\u63d0\u4ea4 \u53c2\u6570\u5728\u4e0b\u8fb9\uff09",
+                "operationId": "finishOrder",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "\u8ba2\u5355id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "payment_type",
+                        "in": "query",
+                        "description": "\u652f\u4ed8\u7c7b\u578b \u652f\u4ed8(\u4ed8\u6b3e)\u65b9\u5f0f 1\u5fae\u4fe1 2\u652f\u4ed8\u5b9d",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "order_state",
+                        "in": "query",
+                        "description": "\u8ba2\u5355\u72b6\u6001 \u8ba2\u5355\u72b6\u6001\uff1a0(\u5df2\u53d6\u6d88)10(\u9ed8\u8ba4):\u672a\u4ed8\u6b3e;20:\u5df2\u4ed8\u6b3e",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Customer"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u8bf7\u4f7f\u7528post\u63d0\u4ea4"
+                    },
+                    "301": {
+                        "description": "\u672a\u83b7id\u53c2\u6570"
+                    },
+                    "302": {
+                        "description": "\u672a\u83b7\u53d6\u652f\u4ed8\u7c7b\u578b"
+                    },
+                    "303": {
+                        "description": "\u672a\u83b7\u53d6\u8ba2\u5355\u72b6\u6001"
+                    },
+                    "304": {
+                        "description": "\u64cd\u4f5c\u5931\u8d25"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Customer/getRouteBypid": {
+            "get": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "\u83b7\u53d6\u884c\u7a0b\u5217\u8868(\u63d0\u4ea4\u8ba2\u5355\u540e)",
+                "description": "\u901a\u8fc7\u7528\u6237id\u83b7\u53d6\u884c\u7a0b\u5217\u8868",
+                "operationId": "getRouteBypid",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "\u7528\u6237id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Customer"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u672a\u83b7\u4e58\u5ba2id\u53c2\u6570\u6216\u8be5id\u4e0d\u5b58\u5728"
+                    },
+                    "301": {
+                        "description": "\u6682\u65e0\u6570\u636e"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        },
+        "/V1/Order/getOrderDetailByid": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "\u83b7\u53d6\u8ba2\u5355\u8be6\u60c5(\u516c\u5171)",
+                "description": "\u901a\u8fc7id\u83b7\u53d6\u8ba2\u5355\u8be6\u60c5\u4fe1\u606f\uff08\u4e58\u5ba2\u548c\u8f66\u4e3b\u90fd\u53ef\u4ee5\u4f7f\u7528\uff09",
+                "operationId": "getOrderDetailByid",
+                "consumes": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "\u8ba2\u5355id",
+                        "required": true,
+                        "type": "integer",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u64cd\u4f5c\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Order"
+                            }
+                        }
+                    },
+                    "300": {
+                        "description": "\u672a\u83b7id\u53c2\u6570\u6216\u8be5id\u4e0d\u5b58\u5728"
+                    },
+                    "301": {
+                        "description": "\u6ca1\u6709\u6570\u636e"
+                    },
+                    "400": {
+                        "description": "\u65e0\u6548\u6807\u7b7e\u503c"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ApiResponse": {
+            "properties": {
+                "code": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "description": "",
+                    "type": "string"
+                },
+                "message": {
+                    "description": "",
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "##default"
+            }
+        },
+        "Carowner": {
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "tel": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u4e58\u5ba2\u7535\u8bdd"
+                },
+                "img": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e58\u5ba2\u5934\u50cf"
+                },
+                "car_color": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u989c\u8272"
+                },
+                "car_brand": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u54c1\u724c"
+                },
+                "real_name": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e58\u5ba2\u771f\u5b9e\u59d3\u540d"
+                },
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u8fd9\u6761\u6570\u636eid"
+                },
+                "users_id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u7528\u6237id"
+                },
+                "start_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u65f6\u95f4"
+                },
+                "companion": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u5ea7\u4f4d\u6570"
+                },
+                "start_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u4f4d\u7f6e"
+                },
+                "start_pos_img": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u56fe\u7247"
+                },
+                "end_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u5230\u8fbe\u4f4d\u7f6e"
+                },
+                "price": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u4ef7\u683c"
+                },
+                "type": {
+                    "description": "",
+                    "example": "\u7c7b\u578b \u9ed8\u8ba40 1\u8f66\u4e3b1 \u4e58\u5ba22"
+                },
+                "status": {
+                    "description": "",
+                    "example": "\u72b6\u6001 \u9ed8\u8ba41"
+                },
+                "create_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u521b\u5efa\u65f6\u95f4"
+                }
+            },
+            "xml": {
+                "name": "Carowner"
+            }
+        },
+        "Common": {
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "users_id": {
+                    "description": "",
+                    "type": "integer",
+                    "example": "\u7528\u6237id"
+                },
+                "home_addr": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u5bb6\u5ead\u5730\u5740"
+                },
+                "company_addr": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u516c\u53f8\u5730\u5740"
+                },
+                "on_work_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e0a\u73ed\u65f6\u95f4"
+                },
+                "off_work_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e0b\u73ed\u65f6\u95f4"
+                }
+            },
+            "xml": {
+                "name": "Common"
+            }
+        },
+        "Customer": {
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "tel": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u8f66\u4e3b\u7535\u8bdd"
+                },
+                "img": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u4e3b\u5934\u50cf"
+                },
+                "car_color": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u989c\u8272"
+                },
+                "car_brand": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u54c1\u724c"
+                },
+                "real_name": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u4e3b\u771f\u5b9e\u59d3\u540d"
+                },
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u8fd9\u6761\u6570\u636eid(\u6240\u5728cab\u8868)"
+                },
+                "users_id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u7528\u6237id"
+                },
+                "start_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u65f6\u95f4"
+                },
+                "companion": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u5ea7\u4f4d\u6570"
+                },
+                "start_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u4f4d\u7f6e"
+                },
+                "start_pos_img": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u56fe\u7247"
+                },
+                "end_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u5230\u8fbe\u4f4d\u7f6e"
+                },
+                "price": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u4ef7\u683c"
+                },
+                "type": {
+                    "description": "",
+                    "example": "\u7c7b\u578b \u9ed8\u8ba40 1\u8f66\u4e3b1 \u4e58\u5ba22"
+                },
+                "status": {
+                    "description": "",
+                    "example": "\u72b6\u6001 \u9ed8\u8ba41"
+                },
+                "create_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u521b\u5efa\u65f6\u95f4"
+                }
+            },
+            "xml": {
+                "name": "Customer"
+            }
+        },
+        "Order": {
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": "\u8ba2\u5355id"
+                },
+                "cab_id": {
+                    "description": "",
+                    "type": "integer",
+                    "example": "cab\u8868id"
+                },
+                "passager_id": {
+                    "description": "",
+                    "type": "integer",
+                    "example": "\u4e58\u5ba2id(\u4e5f\u662f\u7528\u6237id)"
+                },
+                "carowner_id": {
+                    "description": "",
+                    "type": "integer",
+                    "example": "\u8f66\u4e3bid(\u4e5f\u662f\u7528\u6237id)"
+                },
+                "passager_cellphone": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e58\u5ba2\u7535\u8bdd"
+                },
+                "carowner_cellphone": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u4e3b\u7535\u8bdd"
+                },
+                "start_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u65f6\u95f4"
+                },
+                "start_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8d77\u59cb\u5730\u70b9"
+                },
+                "end_pos": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u5230\u8fbe\u5730\u70b9"
+                },
+                "companion": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u5ea7\u4f4d/\u4eba\u6570"
+                },
+                "car_color": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u989c\u8272"
+                },
+                "car_brand": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8f66\u54c1\u724c"
+                },
+                "create_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8ba2\u5355\u751f\u6210\u65f6\u95f4"
+                },
+                "payment_code": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u652f\u4ed8\u65b9\u5f0f\u540d\u79f0\u4ee3\u7801"
+                },
+                "payment_type": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u652f\u4ed8(\u4ed8\u6b3e)\u65b9\u5f0f 1\u5fae\u4fe1 2\u652f\u4ed8\u5b9d"
+                },
+                "finished_time": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8ba2\u5355\u5b8c\u6210\u65f6\u95f4"
+                },
+                "price": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u4e58\u8f66\u8d39\u7528"
+                },
+                "status": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u72b6\u6001"
+                },
+                "order_state": {
+                    "description": "",
+                    "type": "string",
+                    "example": "\u8ba2\u5355\u72b6\u6001\uff1a0(\u5df2\u53d6\u6d88)10(\u9ed8\u8ba4):\u672a\u4ed8\u6b3e;20:\u5df2\u4ed8\u6b3e;"
+                }
+            },
+            "xml": {
+                "name": "Order"
+            }
+        },
+        "Tag": {
+            "properties": {
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "description": "",
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "Tag"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "common",
+            "description": "\u516c\u5171"
+        },
+        {
+            "name": "customer",
+            "description": "\u4e58\u5ba2"
+        },
+        {
+            "name": "carowner",
+            "description": "\u8f66\u4e3b"
+        },
+        {
+            "name": "order",
+            "description": "\u8ba2\u5355"
+        }
+    ]
+}
