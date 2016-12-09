@@ -1,6 +1,4 @@
 
-cab online API [click here](http://www.scaleoa.com/wgyt/cab/Api/doc)
-
 ###### swagger generate json file shell commond
 
 demo: 

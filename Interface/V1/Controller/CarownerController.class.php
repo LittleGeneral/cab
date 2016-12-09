@@ -282,7 +282,7 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.passager_id = u.id')
                            // ->join('LEFT JOIN property p ON o.passager_id = u.id')
-                           ->field('o.id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.id,o.cab_id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -295,7 +295,6 @@ class CarownerController extends ApiController{
     // 获取乘客预约后列表(乘客列表)(未处理)
     public function getCustomerListByCid1()
     {
-
         $passager_id=I('request.pid');
         $users = M('users');
         mysql_set_charset('latin1');
@@ -314,7 +313,7 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.carowner_id = u.id')
                            // ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')
-                           ->field('o.id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.id,o.cab_id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -370,42 +369,46 @@ class CarownerController extends ApiController{
              //实例化order表
             $order=M('order_cab');
             switch ($status) {
-                case 1:
+                case '1':
                     $order->where("cab_id = '$cid'")->setField('status',1);
                     $this->show(200,'success',1);
                     break;
-                case 2:
+                case '2':
                     // $order->where("cab_id = '$cid'")->setField('status',2);
                     // $cab->where("id = '$cid'")->setField('companion',$num);
                     $this->show(200,'success:车主是否同意搭乘');
                     break;
-                case 3:
+                case '3':
                     $order->where("cab_id = '$cid'")->setField('status',3);
-                    $this->show(200,'success:不同意 拒绝乘客或删除',3);
+                    $this->show(200,'success:不同意 拒绝乘客',3);
                     break;
-                case 4:
+                case '4':
                     $order->where("cab_id = '$cid'")->setField('status',4);
                     $cab->where("id = '$cid'")->setField('companion',$num);
                     $this->show(200,'success:同意 接收乘客',4);
                     break;
-                case 5:
+                case '5':
                     $cab->where("id = '$cid'")->setField('companion',($num+$p_companion));
                     $order->where("cab_id = '$cid'")->setField('status',5);
                     $this->show(200,'success:乘客失约',5);
                     break;
-                case 6:
+                case '6':
                     $order->where("cab_id = '$cid'")->setField('status',6);
                     $this->show(200,'success:确认上车',6);
                     break;
-                case 7:
+                case '7':
                     $order->where("cab_id = '$cid'")->setField('status',7);
                     $orderInfo = $order->where("cab_id = '$cid'")->select();
                     $this->show(200, 'success:到达目的地',$orderInfo);
                     break;
-                case 8:
+                case '8':
                     // $cab->where("id='$pid'")->delete();
                     $this->show(200,'success:车主取消或删除接单');
                     // $this->show(200,'success:预约被取消');
+                    break;
+                case '9':
+                    $order->where("cab_id = '$cab_id'")->setField('status',9);
+                    $this->show(200,'success:支付成功');
                     break;
                 default:
                     $this->show(300,'fail','服务器繁忙，请稍后再试');

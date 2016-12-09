@@ -1,7 +1,6 @@
 <?php
 /**
- * 公开接口API
- * 分类，登录，版本，更新等
+ * 公共接口API
  * 不需要验证用户身份token
  */
 namespace V1\Controller;

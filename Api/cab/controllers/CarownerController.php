@@ -548,7 +548,7 @@ final class CarownerController
      *     @SWG\Parameter(
      *         name="id",
      *         in="query",
-     *         description="点击列表中对应的id",
+     *         description="点击列表中对应的cab_id",
      *         required=true,
      *         type="integer",
      *         @SWG\Items(type="string"),
@@ -557,7 +557,7 @@ final class CarownerController
      *     @SWG\Parameter(
      *         name="status",
      *         in="query",
-     *         description="状态码 乘车状态：车主/乘客 1发布/取消预约 2待确认/待车主确认 3拒绝乘客/被拒绝 4等待乘客上车/预约成功 5已失约/失约 6上车 7完成 8取消或删除",
+     *         description="状态码 乘车状态：车主/乘客 1发布/取消预约 2待确认/待车主确认 3拒绝乘客/被拒绝 4等待乘客上车/预约成功 5已失约/失约 6上车 7完成(到达目的地) 8删除 9支付成功",
      *         required=true,
      *         type="integer",
      *         @SWG\Items(type="string"),
