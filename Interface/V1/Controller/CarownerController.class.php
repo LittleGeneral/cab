@@ -158,16 +158,16 @@ class CarownerController extends ApiController{
             $data['users_id']=$user_id;
             $data['companion'] =$companion= I('request.companion');
             $data['start_time']=$start_time;
-            $data['str_start_time']=strtotime($start_time);
+            $data['str_start_time'] = strtotime($start_time);
             $data['start_pos']=$start_pos;
             $data['end_pos']=$end_pos;
             $data['type']=1;
-            $data['create_time']=time();
+            $data['create_time'] =$create_time = time();
 
             $start_pos_img = I('request.start_pos_img');
             //如果用户图像数据不为空，则将APP端传递的图像数据流转化成图像文件
             //上传地址为 User/用户ID.gif
-            if(!empty($start_pos_img)) $data['start_pos_img'] = $this->myStream2Img($start_pos_img,'User','.jpg',intval($start_time));
+            if(!empty($start_pos_img)) $data['start_pos_img'] = $this->myStream2Img($start_pos_img,'User','.jpg',$create_time);
             $data['price'] = I('request.price');
 
             $obj = $cab->create($data);
@@ -202,10 +202,11 @@ class CarownerController extends ApiController{
              $data['passby_time'] = $passby_time;
              $data['str_passby_time'] = strtotime($passby_time);
              $passby_pos_img = I('request.passby_pos_img');
+             $create_time = time();
              // $data['passby_pos_img'] = I('request.passby_pos_img');
              //如果用户图像数据不为空，则将APP端传递的图像数据流转化成图像文件
             //上传地址为 User/用户ID.gif
-            if(!empty($passby_pos_img)) $data['passby_pos_img'] = $this->myStream2Img($passby_pos_img,'User','.jpg',intval($passby_time));
+            if(!empty($passby_pos_img)) $data['passby_pos_img'] = $this->myStream2Img($passby_pos_img,'User','.jpg',$create_time);
             //实例化passby表
             $passby=M('passby');
             $obj = $passby->create($data);
@@ -282,7 +283,7 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.passager_id = u.id')
                            // ->join('LEFT JOIN property p ON o.passager_id = u.id')
-                           ->field('o.id,o.cab_id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -313,7 +314,7 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.carowner_id = u.id')
                            // ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')
-                           ->field('o.id,o.cab_id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -349,20 +350,20 @@ class CarownerController extends ApiController{
             if (!I('request.pid')){
                 $this->show(300, '未获乘客id参数或该id不存在');
             }
-            if (!I('request.id')){
+            if (!I('request.cab_id')){
                 $this->show(300, '未获id参数或该id不存在');
             }
             if (!I('request.status')){
                 $this->show(300, '未获状态参数');
             }
             $pid = I('request.pid');  //passage乘客id 不是用户的id 也是cab表中的id
-            $cid = I('request.id');  //carowner车主id 不是用户的id 也是cab表中的id
+            $cid = I('request.cab_id');  //carowner车主id 不是用户的id 也是cab表中的id
             $status = I('request.status');
 
             //实例化cab表
             $cab = M('cab');
-            $p_companion = $cab->where("id='$pid'")->getField('companion');  //2
-            $c_companion = $cab->where("id='$cid'")->getField('companion');  //5
+            $p_companion = $cab->where("cab_id='$pid'")->getField('companion');  //2
+            $c_companion = $cab->where("cab_id='$cid'")->getField('companion');  //5
 
             $num = $c_companion-$p_companion;
             $num1 = $c_companion+$p_companion;
@@ -388,7 +389,7 @@ class CarownerController extends ApiController{
                     $this->show(200,'success:同意 接收乘客',4);
                     break;
                 case '5':
-                    $cab->where("id = '$cid'")->setField('companion',($num+$p_companion));
+                    $cab->where("cab_id = '$cid'")->setField('companion',($num+$p_companion));
                     $order->where("cab_id = '$cid'")->setField('status',5);
                     $this->show(200,'success:乘客失约',5);
                     break;
@@ -402,7 +403,7 @@ class CarownerController extends ApiController{
                     $this->show(200, 'success:到达目的地',$orderInfo);
                     break;
                 case '8':
-                    // $cab->where("id='$pid'")->delete();
+                    // $cab->where("cab_id='$pid'")->delete();
                     $this->show(200,'success:车主取消或删除接单');
                     // $this->show(200,'success:预约被取消');
                     break;
