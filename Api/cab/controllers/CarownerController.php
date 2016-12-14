@@ -546,7 +546,7 @@ final class CarownerController
      *         collectionFormat="multi"
      *     ),
      *     @SWG\Parameter(
-     *         name="id",
+     *         name="cab_id",
      *         in="query",
      *         description="点击列表中对应的cab_id",
      *         required=true,

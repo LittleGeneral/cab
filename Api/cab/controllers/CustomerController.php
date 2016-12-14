@@ -160,7 +160,7 @@ final class CustomerController
      *         collectionFormat="multi"
      *     ),
      *     @SWG\Parameter(
-     *         name="id",
+     *         name="cab_id",
      *         in="query",
      *         description="cab_id:点击列表中cab_id",
      *         required=true,
@@ -173,6 +173,15 @@ final class CustomerController
      *         in="query",
      *         description="状态码 乘车状态：车主/乘客 1发布/取消预约 2待确认/待车主确认 3拒绝乘客/被拒绝 4等待乘客上车/预约成功 5已失约/失约 6上车 7完成(到达目的地) 8删除 9支付成功",
      *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="payment_type",
+     *         in="query",
+     *         description="支付类型 支付(付款)方式 1微信 2支付宝",
+     *         required=false,
      *         type="integer",
      *         @SWG\Items(type="string"),
      *         collectionFormat="multi"
@@ -265,7 +274,8 @@ final class CustomerController
      *     @SWG\Response(
      *         response="400",
      *         description="无效标签值",
-     *     )
+     *     ),
+     *     deprecated=true
      * )
      */
     public function finishOrder()

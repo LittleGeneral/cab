@@ -50,6 +50,7 @@
 								<th>乘车费用</th>
 								<th>约车状态</th>
 								<th>订单状态</th>
+								<th>完成时间</th>
 								<!-- <th>是否启用</th> -->
 								<th>操作</th>
 							</tr>
@@ -57,7 +58,7 @@
 						<tbody>
 							<foreach name="orders" item="vo">
 								<tr>
-									<td><{$vo['id']}></td>
+									<td><{$vo['order_cab_id']}></td>
 									<!-- <td class="center"><{$vo.passager_id}></td>
 									<td class="center"><{$vo.carowner_id}></td>
 									<td class="center"><{$vo.start_time}></td>
@@ -77,6 +78,7 @@
 									</td>
 									<td class="center"><{$vo.price}></td>
 									<td class="center"><{$vo.status}></td>
+									<td class="center"><{:date('Y-m-d H:i:s',$vo['finished_time'])}></td>
 									<td class="center">
 										<if condition="$vo.order_state eq 10" >
 								            <font color="#FF0000">未付款</font>

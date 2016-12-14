@@ -283,7 +283,8 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.passager_id = u.id')
                            // ->join('LEFT JOIN property p ON o.passager_id = u.id')
-                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.passager_id,u.img,u.cname,u.bind,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state,o.create_time')
+                           ->order('create_time desc')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -314,7 +315,8 @@ class CarownerController extends ApiController{
         $data = $order->alias('o')
                            ->join('LEFT JOIN users u ON o.carowner_id = u.id')
                            // ->join('LEFT JOIN certification c2 ON o.carowner_id = c2.users_id')
-                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state')
+                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.carowner_id,u.img,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.status,o.order_state,o.create_time')
+                           ->order('create_time desc')
                            ->where($where)
                            ->select();
         if ($data === false){
@@ -357,13 +359,17 @@ class CarownerController extends ApiController{
                 $this->show(300, '未获状态参数');
             }
             $pid = I('request.pid');  //passage乘客id 不是用户的id 也是cab表中的id
-            $cid = I('request.cab_id');  //carowner车主id 不是用户的id 也是cab表中的id
+            $cab_id = I('request.cab_id');  //carowner车主id 不是用户的id 也是cab表中的id
             $status = I('request.status');
 
             //实例化cab表
             $cab = M('cab');
+
+            $where['cab_id'] = $cab_id;
+            $where['passager_id'] = $pid;
+
             $p_companion = $cab->where("cab_id='$pid'")->getField('companion');  //2
-            $c_companion = $cab->where("cab_id='$cid'")->getField('companion');  //5
+            $c_companion = $cab->where("cab_id='$cab_id'")->getField('companion');  //5
 
             $num = $c_companion-$p_companion;
             $num1 = $c_companion+$p_companion;
@@ -371,49 +377,126 @@ class CarownerController extends ApiController{
             $order=M('order_cab');
             switch ($status) {
                 case '1':
-                    $order->where("cab_id = '$cid'")->setField('status',1);
+                    $order->where($where)->setField('status',1);
                     $this->show(200,'success',1);
                     break;
                 case '2':
-                    // $order->where("cab_id = '$cid'")->setField('status',2);
-                    // $cab->where("id = '$cid'")->setField('companion',$num);
+                    // $order->where($where)->setField('status',2);
+                    // $cab->where("id = '$cab_id'")->setField('companion',$num);
                     $this->show(200,'success:车主是否同意搭乘');
                     break;
                 case '3':
-                    $order->where("cab_id = '$cid'")->setField('status',3);
+                    $order->where($where)->setField('status',3);
                     $this->show(200,'success:不同意 拒绝乘客',3);
                     break;
                 case '4':
-                    $order->where("cab_id = '$cid'")->setField('status',4);
-                    $cab->where("id = '$cid'")->setField('companion',$num);
+                    $order->where($where)->setField('status',4);
+                    // $cab->where($where)->setField('companion',$num);
                     $this->show(200,'success:同意 接收乘客',4);
                     break;
                 case '5':
-                    $cab->where("cab_id = '$cid'")->setField('companion',($num+$p_companion));
-                    $order->where("cab_id = '$cid'")->setField('status',5);
+                    // $cab->where($where)->setField('companion',($num+$p_companion));
+                    $order->where($where)->setField('status',5);
                     $this->show(200,'success:乘客失约',5);
                     break;
                 case '6':
-                    $order->where("cab_id = '$cid'")->setField('status',6);
+                    $order->where($where)->setField('status',6);
                     $this->show(200,'success:确认上车',6);
                     break;
                 case '7':
-                    $order->where("cab_id = '$cid'")->setField('status',7);
-                    $orderInfo = $order->where("cab_id = '$cid'")->select();
+                    $order->where($where)->setField('status',7);
+                    $orderInfo = $order->where($where)->select();
                     $this->show(200, 'success:到达目的地',$orderInfo);
                     break;
                 case '8':
-                    // $cab->where("cab_id='$pid'")->delete();
                     $this->show(200,'success:车主取消或删除接单');
                     // $this->show(200,'success:预约被取消');
                     break;
                 case '9':
-                    $order->where("cab_id = '$cab_id'")->setField('status',9);
+                    $order->where($where)->setField('status',9);
                     $this->show(200,'success:支付成功');
                     break;
                 default:
                     $this->show(300,'fail','服务器繁忙，请稍后再试');
                     break;
+            }
+        }else{
+            $this->show(300, '请使用post提交');
+        }
+    }
+
+
+    // 车主接单状态
+    public function carOrderStatuss()
+    {
+        if (IS_POST) {
+            if (!I('request.pid')){
+                $this->show(300, '未获乘客id参数或该id不存在');
+            }
+            if (!I('request.cab_id')){
+                $this->show(300, '未获id参数或该id不存在');
+            }
+            // if (!I('request.status')){
+            //     $this->show(300, '未获状态参数');
+            // }
+            $pid = I('request.pid');  //passage乘客id 不是用户的id 也是cab表中的id
+            $cab_id = I('request.cab_id');  //carowner车主id 不是用户的id 也是cab表中的id
+            $status = I('request.status');
+            $state = I('request.state');
+
+            //实例化cab表
+            $cab = M('cab');
+
+            $where['cab_id'] = $cab_id;
+            $where['passager_id'] = $pid;
+
+            $p_companion = $cab->where("cab_id='$pid'")->getField('companion');  //2
+            $c_companion = $cab->where("cab_id='$cab_id'")->getField('companion');  //5
+
+            $num = $c_companion-$p_companion;
+            $num1 = $c_companion+$p_companion;
+             //实例化order表
+            $order=M('order_cab');
+
+            if ($status=='1') {
+                $order->where($where)->setField('status',1);
+                $this->show(200,'success',1);
+            }elseif ($status=='2') {
+                $this->show(200,'success:车主是否同意搭乘');
+            }elseif ($status=='3') {
+                $order->where($where)->setField('status',3);
+                $this->show(200,'success:不同意 拒绝乘客',3);
+            }elseif ($status=='4') {
+                $order->where($where)->setField('status',4);
+                // $cab->where($where)->setField('companion',$num);
+                $this->show(200,'success:同意 接收乘客',4);
+            }elseif ($status=='5') {
+                // $cab->where($where)->setField('companion',($num+$p_companion));
+                $order->where($where)->setField('status',5);
+                $this->show(200,'success:乘客失约',5);
+            }elseif ($status=='6') {
+                $order->where($where)->setField('status',6);
+                $this->show(200,'success:确认上车',6);
+            }elseif ($status=='7') {
+                $order->where($where)->setField('status',7);
+                $orderInfo = $order->where($where)->select();
+                $this->show(200, 'success:到达目的地',$orderInfo);
+            // }elseif ($status=='8') {
+            //     $this->show(200,'success:车主取消或删除接单');
+            }elseif ($status=='9') {
+                $order->where($where)->setField('status',9);
+                $this->show(200,'success:支付成功');
+            }elseif ($state=='00') { //乘客车主都没有删除
+                $this->show(200,'success:乘客车主都没有删除',00);
+            }elseif ($state=='10') { //乘客删除
+                $this->show(200,'success:乘客删除',10);
+            }elseif ($state=='01') {  //车主删除
+                $order->where($where)->setField('state',01);
+                $this->show(200,'success:车主删除',01);
+            }elseif ($state=='11') {  //乘客车主都删除
+                $this->show(200,'success:乘客车主都删除',11);
+            } else {
+                $this->show(300,'fail','服务器繁忙，请稍后再试');
             }
         }else{
             $this->show(300, '请使用post提交');
