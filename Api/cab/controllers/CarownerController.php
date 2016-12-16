@@ -724,7 +724,7 @@ final class CarownerController
      *     path="/V1/Carowner/delOrderByOrderCabId",
      *     summary="车主删除订单(提交订单后)",
      *     tags={"carowner"},
-     *     description="通过订单id修改状态值来判断乘客是否删除",
+     *     description="通过订单id修改状态值state来判断乘客是否删除",
      *     operationId="delOrderByOrderCabId",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
