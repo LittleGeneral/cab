@@ -361,7 +361,7 @@ final class CustomerController
      *     path="/V1/Customer/delOrderByOrderCabId",
      *     summary="乘客删除订单(提交订单后)",
      *     tags={"customer"},
-     *     description="通过订单id修改状态值来判断乘客是否删除",
+     *     description="通过订单id修改状态值state来判断乘客是否删除",
      *     operationId="delOrderByOrderCabId",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},

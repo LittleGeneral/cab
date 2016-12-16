@@ -497,14 +497,14 @@ class CarownerController extends ApiController{
 
     //删除已完成订单
     public function delOrderByOrderCabId(){
-        if (!I('request.order_cab_id')) {
+        if (!I('get.order_cab_id')) {
             $this->show(300,'未获取订单id');
         }
-        if(!I('request.state')){
+        if(!I('get.state')){
             $this->show(301,'未获取状态值');
         }
-        $order_cab_id = I('request.order_cab_id');
-        $state = I('request.state');
+        $order_cab_id = I('get.order_cab_id');
+        $state = I('get.state');
 
         $order = M('order_cab');
         $where['order_cab_id'] = $order_cab_id;

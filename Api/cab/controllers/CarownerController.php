@@ -659,7 +659,7 @@ final class CarownerController
      *     path="/V1/Carowner/getOrderListByCid",
      *     summary="获取行程列表(发送订单后)",
      *     tags={"carowner"},
-     *     description="通过车主id获取行程列表  页码pageNum，每页默认5条",
+     *     description="通过车主id获取行程列表，页码pageNum，每页默认5条",
      *     operationId="getOrderListByCid",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
