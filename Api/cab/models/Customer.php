@@ -98,6 +98,12 @@ class Customer
      */
     public $status;
 
+     /**
+     * @SWG\Property(example="删除状态 默认00")
+     * @var String
+     */
+    public $state;
+
     /**
      * @SWG\Property(example="创建时间")
      * @var String

@@ -146,7 +146,7 @@ final class CustomerController
      *     path="/V1/Customer/takeCarStatus",
      *     summary="乘客乘车状态码",
      *     tags={"customer"},
-     *     description="通过修改状态与车主进行交互操作 我测试用的 pid=1&id=67&status=1",
+     *     description="通过修改状态与车主进行交互操作 我测试用的 pid=1&id=67&status=1 如果传status不传state",
      *     operationId="takeCarStatus",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
@@ -173,6 +173,15 @@ final class CustomerController
      *         in="query",
      *         description="状态码 乘车状态：车主/乘客 1发布/取消预约 2待确认/待车主确认 3拒绝乘客/被拒绝 4等待乘客上车/预约成功 5已失约/失约 6上车 7完成(到达目的地) 8删除 9支付成功",
      *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="state",
+     *         in="query",
+     *         description="车主乘客删除状态：00都没删 10乘客删 01车主删 11乘客车主都删除",
+     *         required=false,
      *         type="integer",
      *         @SWG\Items(type="string"),
      *         collectionFormat="multi"
@@ -287,7 +296,7 @@ final class CustomerController
      *     path="/V1/Customer/getRouteBypid",
      *     summary="获取行程列表(提交订单后)",
      *     tags={"customer"},
-     *     description="通过用户id获取行程列表",
+     *     description="通过用户id获取行程列表,页码pageNum，每页默认5条",
      *     operationId="getRouteBypid",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
@@ -296,6 +305,15 @@ final class CustomerController
      *         in="query",
      *         description="用户id",
      *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="pageNum",
+     *         in="query",
+     *         description="页码（默认第1页）",
+     *         required=false,
      *         type="integer",
      *         @SWG\Items(type="string"),
      *         collectionFormat="multi"
@@ -335,6 +353,83 @@ final class CustomerController
      * )
      */
     public function getRouteBypid()
+    {
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/V1/Customer/delOrderByOrderCabId",
+     *     summary="乘客删除订单(提交订单后)",
+     *     tags={"customer"},
+     *     description="通过订单id修改状态值来判断乘客是否删除",
+     *     operationId="delOrderByOrderCabId",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *     @SWG\Parameter(
+     *         name="order_cab_id",
+     *         in="query",
+     *         description="订单id",
+     *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="state",
+     *         in="query",
+     *         description="车主乘客删除状态：00都没删 10乘客删 01车主删 11乘客车主都删除",
+     *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Customer")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Customer")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="操作成功",
+     *     ),
+     *     @SWG\Response(
+     *         response="300",
+     *         description="未获取订单id",
+     *     ),
+     *      @SWG\Response(
+     *         response="301",
+     *         description="未获取状态值",
+     *     ),
+     *      @SWG\Response(
+     *         response="302",
+     *         description="该订单id不存在",
+     *     ),
+     *     @SWG\Response(
+     *         response="303",
+     *         description="状态参数有误",
+     *     ),
+     *     @SWG\Response(
+     *         response="304",
+     *         description="服务器繁忙，请稍后再试",
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="无效标签值",
+     *     )
+     * )
+     */
+    public function delOrderByOrderCabId()
     {
     }
 
