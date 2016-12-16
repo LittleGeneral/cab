@@ -318,6 +318,15 @@ final class CustomerController
      *         @SWG\Items(type="string"),
      *         collectionFormat="multi"
      *     ),
+     *     @SWG\Parameter(
+     *         name="pageCount",
+     *         in="query",
+     *         description="条/页（默认5条）",
+     *         required=false,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
      *     @SWG\Response(
      *         response=200,
      *         description="操作成功",

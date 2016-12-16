@@ -290,6 +290,66 @@ final class CarownerController
     }
 
     /**
+     * @SWG\Get(
+     *     path="/V1/Carowner/delCarOrderByCabId",
+     *     summary="车主删除行程(未处理状态)",
+     *     tags={"carowner"},
+     *     description="通过cab_id删除车主发布的车程",
+     *     operationId="delCarOrderByCabId",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *     @SWG\Parameter(
+     *         name="cab_id",
+     *         in="query",
+     *         description="车主cab_id",
+     *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Carowner")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Carowner")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="操作成功",
+     *     ),
+     *     @SWG\Response(
+     *         response="300",
+     *         description="未获取车主id",
+     *     ),
+     *      @SWG\Response(
+     *         response="301",
+     *         description="车主id不存在",
+     *     ),
+     *      @SWG\Response(
+     *         response="302",
+     *         description="删除失败",
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="无效标签值",
+     *     )
+     * )
+     */
+    public function delCarOrderByCabId()
+    {
+    }
+
+    /**
      * @SWG\Post(
      *     path="/V1/Carowner/addPassbyPos",
      *     summary="添加途径地点",
@@ -676,6 +736,15 @@ final class CarownerController
      *         name="pageNum",
      *         in="query",
      *         description="页码（默认第1页）",
+     *         required=false,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="pageCount",
+     *         in="query",
+     *         description="条/页（默认5条）",
      *         required=false,
      *         type="integer",
      *         @SWG\Items(type="string"),

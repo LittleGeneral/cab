@@ -123,72 +123,6 @@ class CarownerController extends ApiController{
     }
 
     // 接单添加或设置
-    public function carOrderr()
-    {
-        if (IS_POST) {
-            if (!I('request.id')){
-                $this->show(301, '未获用户id参数或该id不存在');
-            }
-            $user_id=I('request.id');
-
-            //实例化cab表
-            $cab=M('cab');
-
-            // $order = M('order_cab');
-            // $id = $cab->where("users_id = '$user_id'")->getField('id');
-            // $cab_id = $order->where("carowner_id = '$id'")->getField('cab_id');
-            // if (empty($cab_id)) {
-            //     $this->show(200, 'success:有发布车程未完成');
-            // }
-
-            $shuttle = M('shuttle');
-            $info = $shuttle->where("users_id='$user_id'")->field('home_addr,company_addr,on_work_time,off_work_time')->find();
-
-            $start_time1=I('request.start_time');
-            $start_time2=$info['on_work_time'];
-            $start_time = (!empty($start_time1)) ? $start_time1 : $start_time2;
-
-            $start_pos1=I('request.start_pos','');
-            $start_pos2=$info['home_addr'];
-            $start_pos = (!empty($start_pos1)) ? $start_pos1 : $start_pos2;
-
-            $end_pos1=I('request.end_pos','');
-            $end_pos2=$info['company_addr'];
-            $end_pos = (!empty($end_pos1)) ? $end_pos1 : $end_pos2;
-
-            $data['users_id']=$user_id;
-            $data['companion'] =$companion= I('request.companion');
-            $data['start_time']=$start_time;
-            $data['str_start_time'] = strtotime($start_time);
-            $data['start_pos']=$start_pos;
-            $data['end_pos']=$end_pos;
-            $data['type']=1;
-            $data['create_time'] =$create_time = time();
-
-            $start_pos_img = I('request.start_pos_img');
-            //如果用户图像数据不为空，则将APP端传递的图像数据流转化成图像文件
-            //上传地址为 User/用户ID.gif
-            if(!empty($start_pos_img)) $data['start_pos_img'] = $this->myStream2Img($start_pos_img,'User','.jpg',$create_time);
-            $data['price'] = I('request.price');
-
-            $obj = $cab->create($data);
-            if(!$obj){
-                $this->show(300,$cab->getError());
-            }else{
-//                $cab->where("users_id = '$user_id'")->setField('type',0);
-                $result = $cab->data($data)->add();
-                if ($result === false){
-                    $this->show(302, '添加失败，请稍后再试');
-                }else{
-                    $this->show(200, 'success',1);
-                }
-            }
-        }else{
-            $this->show(303, '请使用post提交');
-        }
-    }
-
-    // 接单添加或设置
     public function carOrder()
     {
         if (IS_POST) {
@@ -251,6 +185,29 @@ class CarownerController extends ApiController{
             $this->show(303, '请使用post提交');
         }
     }
+
+    // 删除接的单
+    public function delCarOrderByCabId()
+    {
+        if(!I('get.cab_id')){
+            $this->show(300,'未获取车主id');
+        }
+        $cab_id = I('get.cab_id');
+        $cab = M('cab');
+        $where['cab_id'] = $cab_id;
+
+        $cabid = $cab->where($where)->getField('cab_id');
+        if(empty($cabid)){
+            $this->show(301,'车主id不存在');
+        }
+        $car = $cab->where($where)->delete();
+        if ($car === false) {
+            $this->show(302,'删除失败');
+        }else{
+            $this->show(200,'success',$car);
+        }
+    }
+
 
     // 添加途径地
     public function addPassbyPos()
@@ -478,7 +435,8 @@ class CarownerController extends ApiController{
             $this->show(300, '未获车主id参数或该id不存在');
         }
         $carowner_id=I('get.cid');
-        $pageNum = I('get.pageNum',1);
+        $pageNum1 = I('get.pageNum',1);
+        $pageNum = $pageNum1 + 1;
         $pageCount = I('get.pageCount',5);
         //实例化order表
         $order=M('order_cab');
