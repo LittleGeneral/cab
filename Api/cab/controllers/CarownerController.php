@@ -292,7 +292,7 @@ final class CarownerController
     /**
      * @SWG\Get(
      *     path="/V1/Carowner/delCarOrderByCabId",
-     *     summary="车主删除行程(未处理状态)",
+     *     summary="车主删除行程(待处理)",
      *     tags={"carowner"},
      *     description="通过cab_id删除车主发布的车程",
      *     operationId="delCarOrderByCabId",
@@ -661,9 +661,9 @@ final class CarownerController
     /**
      * @SWG\Get(
      *     path="/V1/Carowner/getCustomerListByCid",
-     *     summary="预约后 获取乘客列表(未处理)",
+     *     summary="预约后 获取乘客列表(待处理)",
      *     tags={"carowner"},
-     *     description="通过车主id获取乘客预约后列表(乘客列表)(未处理)",
+     *     description="通过车主id获取乘客预约后列表(乘客列表)(待处理)",
      *     operationId="getCustomerListByCid",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
@@ -714,12 +714,12 @@ final class CarownerController
     {
     }
 
-    /**
+   /**
      * @SWG\Get(
      *     path="/V1/Carowner/getOrderListByCid",
-     *     summary="获取行程列表(发送订单后)",
+     *     summary="获取行程列表(完成后)",
      *     tags={"carowner"},
-     *     description="通过车主id获取行程列表，页码pageNum，每页默认5条",
+     *     description="通过车主id获取行程数",
      *     operationId="getOrderListByCid",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
@@ -727,6 +727,72 @@ final class CarownerController
      *         name="cid",
      *         in="query",
      *         description="车主id",
+     *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Carowner")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="操作成功",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Carowner")
+     *         ),
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="操作成功",
+     *     ),
+     *     @SWG\Response(
+     *         response="300",
+     *         description="未获车主id参数或该id不存在",
+     *     ),
+     *      @SWG\Response(
+     *         response="301",
+     *         description="暂无数据",
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="无效标签值",
+     *     )
+     * )
+     */
+    public function getOrderListByCid()
+    {
+    }
+
+
+    /**
+     * @SWG\Get(
+     *     path="/V1/Carowner/getOrderListDetailByCid",
+     *     summary="获取行程列表详情(完成后)",
+     *     tags={"carowner"},
+     *     description="通过车主id获取行程列表，页码pageNum，每页默认5条",
+     *     operationId="getOrderListDetailByCid",
+     *     consumes={"application/xml", "application/json"},
+     *     produces={"application/xml", "application/json"},
+     *     @SWG\Parameter(
+     *         name="cid",
+     *         in="query",
+     *         description="车主id",
+     *         required=true,
+     *         type="integer",
+     *         @SWG\Items(type="string"),
+     *         collectionFormat="multi"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="order_state",
+     *         in="query",
+     *         description="订单状态order_state 10未支付 20支付",
      *         required=true,
      *         type="integer",
      *         @SWG\Items(type="string"),
@@ -784,14 +850,14 @@ final class CarownerController
      *     )
      * )
      */
-    public function getOrderListByCid()
+    public function getOrderListDetailByCid()
     {
     }
 
     /**
      * @SWG\Get(
      *     path="/V1/Carowner/delOrderByOrderCabId",
-     *     summary="车主删除订单(提交订单后)",
+     *     summary="车主删除订单(完成后)",
      *     tags={"carowner"},
      *     description="通过订单id修改状态值state来判断乘客是否删除",
      *     operationId="delOrderByOrderCabId",

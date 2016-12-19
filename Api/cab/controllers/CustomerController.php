@@ -88,9 +88,9 @@ final class CustomerController
     /**
      * @SWG\Get(
      *     path="/V1/Customer/getCarownerListByPid",
-     *     summary="预约后 获取车主列表(未处理)",
+     *     summary="预约后 获取车主列表(待处理)",
      *     tags={"customer"},
-     *     description="通过用户id获取乘客预约后列表(车主列表)(未处理)",
+     *     description="通过用户id获取乘客预约后列表(车主列表)(待处理)",
      *     operationId="getCarownerListByPid",
      *     consumes={"application/xml", "application/json"},
      *     produces={"application/xml", "application/json"},
@@ -144,7 +144,7 @@ final class CustomerController
      /**
      * @SWG\Post(
      *     path="/V1/Customer/takeCarStatus",
-     *     summary="乘客乘车状态码",
+     *     summary="乘客乘车状态码(待处理)",
      *     tags={"customer"},
      *     description="通过修改状态与车主进行交互操作 我测试用的 pid=1&id=67&status=1 如果传status不传state",
      *     operationId="takeCarStatus",
@@ -294,7 +294,7 @@ final class CustomerController
     /**
      * @SWG\Get(
      *     path="/V1/Customer/getRouteBypid",
-     *     summary="获取行程列表(提交订单后)",
+     *     summary="获取行程列表(完成后)",
      *     tags={"customer"},
      *     description="通过用户id获取行程列表,页码pageNum，每页默认5条",
      *     operationId="getRouteBypid",
@@ -368,7 +368,7 @@ final class CustomerController
     /**
      * @SWG\Get(
      *     path="/V1/Customer/delOrderByOrderCabId",
-     *     summary="乘客删除订单(提交订单后)",
+     *     summary="乘客删除订单(完成后)",
      *     tags={"customer"},
      *     description="通过订单id修改状态值state来判断乘客是否删除",
      *     operationId="delOrderByOrderCabId",

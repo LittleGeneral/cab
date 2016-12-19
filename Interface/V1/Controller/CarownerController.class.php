@@ -189,22 +189,26 @@ class CarownerController extends ApiController{
     // 删除接的单
     public function delCarOrderByCabId()
     {
-        if(!I('get.cab_id')){
+        if(!I('request.cab_id')){
             $this->show(300,'未获取车主id');
         }
-        $cab_id = I('get.cab_id');
+        $cab_id = I('request.cab_id');
         $cab = M('cab');
         $where['cab_id'] = $cab_id;
 
-        $cabid = $cab->where($where)->getField('cab_id');
-        if(empty($cabid)){
-            $this->show(301,'车主id不存在');
+        $data = $cab->find($cab_id);
+        if ($data == null) {
+             $this->show(301, '车主id不存在');
         }
-        $car = $cab->where($where)->delete();
-        if ($car === false) {
-            $this->show(302,'删除失败');
-        }else{
-            $this->show(200,'success',$car);
+        if ($data) {
+            $start_pos_img='.'.$data['start_pos_img'];
+            unlink($start_pos_img);
+            $result=$cab->delete($cab_id);
+        }
+        if ($result) {
+            $this->show(200, 'success',1);
+        }else {
+           $this->show(302, 'fail',0);
         }
     }
 
@@ -412,10 +416,6 @@ class CarownerController extends ApiController{
                         $order->where($where)->delete();
                         $this->show(200,'success2:乘客车主都已删除');
                         break;
-                    // case '11':
-                    //     $order->where($where)->delete();
-                    //     $this->show(200,'success3:乘客车主都已删除');
-                    //     break;
                     default:
                         $this->show(300,'fail','服务器繁忙，请稍后再试');
                         break;
@@ -431,17 +431,68 @@ class CarownerController extends ApiController{
     // 车主获取订单列表
     public function getOrderListByCid()
     {
-        if (!I('get.cid')){
+        if (!I('request.cid')){
             $this->show(300, '未获车主id参数或该id不存在');
         }
-        $carowner_id=I('get.cid');
-        $pageNum1 = I('get.pageNum',1);
-        $pageNum = $pageNum1 + 1;
-        $pageCount = I('get.pageCount',5);
+        $carowner_id=I('request.cid');
+        //实例化order表
+        $order=M('order_cab');
+        $where1['carowner_id'] = $carowner_id;
+        $where1['order_state'] = '10'; //未支付
+        $dataInfo1[0]['count'] = $counts = $order->where($where1)->count();
+        $data1 = $order
+                ->where($where1)
+                ->field('carowner_id,start_time,start_pos,end_pos,order_state')
+                ->order('create_time desc')
+                ->limit(1)
+                ->select();
+        $dataInfo1[0]['carowner_id'] = $data1[0]['carowner_id'];
+        $dataInfo1[0]['start_time'] = $data1[0]['start_time'];
+        $dataInfo1[0]['start_pos'] = $data1[0]['start_pos'];
+        $dataInfo1[0]['end_pos'] = $data1[0]['end_pos'];
+        $dataInfo1[0]['order_state'] = $data1[0]['order_state'];
+
+        $where['carowner_id'] = $carowner_id;
+        $where['order_state'] = '20'; //支付
+        $dataInfo2[0]['count'] = $counts = $order->where($where)->count();
+        $data = $order
+                ->where($where)
+                ->field('carowner_id,start_time,start_pos,end_pos,order_state')
+                ->order('create_time desc')
+                ->limit(1)
+                ->select();
+        $dataInfo2[0]['carowner_id'] = $data[0]['carowner_id'];
+        $dataInfo2[0]['start_time'] = $data[0]['start_time'];
+        $dataInfo2[0]['start_pos'] = $data[0]['start_pos'];
+        $dataInfo2[0]['end_pos'] = $data[0]['end_pos'];
+        $dataInfo2[0]['order_state'] = $data[0]['order_state'];
+
+        $dataInfo = array_merge($dataInfo1,$dataInfo2);
+        if ($dataInfo === false){
+               $this->show(301, '没有数据');
+            }else{
+                $this->show(200, 'success',$dataInfo);
+            }
+    }
+
+    // 车主获取订单列表详情
+    public function getOrderListDetailByCid()
+    {
+        if (!I('request.cid')){
+            $this->show(300, '未获车主id参数或该id不存在');
+        }
+        if (!I('request.order_state')){
+            $this->show(301, '未获订单状态 10未支付 20支付');
+        }
+        $carowner_id=I('request.cid');
+        $order_state=I('request.order_state');
+        $pageNum1 = I('request.pageNum',0);
+        $pageNum = ($pageNum1 + 1);
+        $pageCount = I('request.pageCount',5);
         //实例化order表
         $order=M('order_cab');
         $where['carowner_id'] = $carowner_id;
-        // $where['order_state'] = '10';
+        $where['order_state'] = $order_state;
         $data = $order
                 ->where($where)
                 ->page($pageNum,$pageCount)
@@ -455,14 +506,14 @@ class CarownerController extends ApiController{
 
     //删除已完成订单
     public function delOrderByOrderCabId(){
-        if (!I('get.order_cab_id')) {
+        if (!I('request.order_cab_id')) {
             $this->show(300,'未获取订单id');
         }
-        if(!I('get.state')){
+        if(!I('request.state')){
             $this->show(301,'未获取状态值');
         }
-        $order_cab_id = I('get.order_cab_id');
-        $state = I('get.state');
+        $order_cab_id = I('request.order_cab_id');
+        $state = I('request.state');
 
         $order = M('order_cab');
         $where['order_cab_id'] = $order_cab_id;
