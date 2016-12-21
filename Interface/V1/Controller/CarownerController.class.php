@@ -349,9 +349,7 @@ class CarownerController extends ApiController{
             if (!I('request.cab_id')){
                 $this->show(300, '未获id参数或该id不存在');
             }
-            // if (!I('request.status')){
-            //     $this->show(300, '未获状态参数');
-            // }
+
             $pid = I('request.pid');  //passage乘客id 不是用户的id 也是cab表中的id
             $cab_id = I('request.cab_id');  //carowner车主id 不是用户的id 也是cab表中的id
             $status = I('request.status');
@@ -392,8 +390,14 @@ class CarownerController extends ApiController{
                 $order->where($where)->setField('status',6);
                 $this->show(200,'success:确认上车',6);
             }elseif ($status=='7') {
-                $cab->where("cab_id = '$cab_id'")->setField('status2',2);
                 $order->where($where)->setField('status',7);
+                $carowner_id = $order->where($where)->getField('carowner_id');
+                $statusArr = $order->where("carowner_id = '$carowner_id'")->getField('status',true);
+                if (min($statusArr) < 7) {
+                    $cab->where("cab_id = '$cab_id'")->setField('status2',1);
+                }else{
+                    $cab->where("cab_id = '$cab_id'")->setField('status2',2);
+                }
                 $orderInfo = $order->where($where)->select();
                 $this->show(200, 'success:到达目的地',$orderInfo);
             // }elseif ($status=='8') {
@@ -435,48 +439,22 @@ class CarownerController extends ApiController{
             $this->show(300, '未获车主id参数或该id不存在');
         }
         $carowner_id=I('request.cid');
-        //实例化order表
-        $order=M('order_cab');
-        $where1['carowner_id'] = $carowner_id;
-        $where1['order_state'] = '10'; //未支付
-        $dataInfo1[0]['count'] = $counts = $order->where($where1)->count();
-        $data1 = $order
-                ->where($where1)
-                ->field('carowner_id,start_time,start_pos,end_pos,order_state')
-                ->order('create_time desc')
-                ->limit(1)
-                ->select();
-        $dataInfo1[0]['carowner_id'] = $data1[0]['carowner_id'];
-        $dataInfo1[0]['start_time'] = $data1[0]['start_time'];
-        $dataInfo1[0]['start_pos'] = $data1[0]['start_pos'];
-        $dataInfo1[0]['end_pos'] = $data1[0]['end_pos'];
-        $dataInfo1[0]['order_state'] = $data1[0]['order_state'];
-
-        $where['carowner_id'] = $carowner_id;
-        $where['order_state'] = '20'; //支付
-        $dataInfo2[0]['count'] = $counts = $order->where($where)->count();
-        $data = $order
-                ->where($where)
-                ->field('carowner_id,start_time,start_pos,end_pos,order_state')
-                ->order('create_time desc')
-                ->limit(1)
-                ->select();
-        $dataInfo2[0]['carowner_id'] = $data[0]['carowner_id'];
-        $dataInfo2[0]['start_time'] = $data[0]['start_time'];
-        $dataInfo2[0]['start_pos'] = $data[0]['start_pos'];
-        $dataInfo2[0]['end_pos'] = $data[0]['end_pos'];
-        $dataInfo2[0]['order_state'] = $data[0]['order_state'];
-
-        $dataInfo = array_merge($dataInfo1,$dataInfo2);
-        if ($dataInfo === false){
+        $cab = M('cab');
+        $where['users_id'] = $carowner_id;
+        $where['type'] = 1;
+        $cabList = $cab->alias('c')
+                   ->where($where)
+                   ->field('cab_id,users_id,start_time,start_pos,end_pos,count')
+                   ->select();
+        if ($cabList === false){
                $this->show(301, '没有数据');
             }else{
-                $this->show(200, 'success',$dataInfo);
+                $this->show(200, 'success',$cabList);
             }
     }
 
     // 车主获取订单列表详情
-    public function getOrderListDetailByCid()
+    public function getOrderListDetailByCidd()
     {
         if (!I('request.cid')){
             $this->show(300, '未获车主id参数或该id不存在');
@@ -499,6 +477,41 @@ class CarownerController extends ApiController{
                 ->select();
         if ($data === false){
                $this->show(301, '没有数据');
+            }else{
+                $this->show(200, 'success',$data);
+            }
+    }
+
+    // 车主获取订单列表详情
+    public function getOrderListDetailByCid()
+    {
+        if (!I('request.cid')){
+            $this->show(300, '未获车主id参数或该id不存在');
+        }
+        if (!I('request.order_state')){
+            $this->show(301, '未获订单状态 10未支付 20支付');
+        }
+        $carowner_id=I('request.cid');
+        $order_state=I('request.order_state');
+        $pageNum1 = I('request.pageNum',0);
+        $pageNum = ($pageNum1 + 1);
+        $pageCount = I('request.pageCount',5);
+        //实例化order表
+        $order=M('order_cab');
+        $where['carowner_id'] = $carowner_id;
+        $where['order_state'] = $order_state;
+
+        $data = $order->alias('o')
+                           ->join('LEFT JOIN users u ON o.passager_id = u.id')
+                           ->join('LEFT JOIN cab c ON o.cab_id = c.cab_id')
+                           ->join('LEFT JOIN certification c2 ON o.passager_id = c2.users_id')
+                           ->field('o.order_cab_id,o.cab_id,o.passager_id,o.carowner_id,u.img,c.start_pos_img,c2.real_name,o.passager_cellphone,o.carowner_cellphone,o.start_time,o.start_pos,o.end_pos,o.companion,o.car_color,o.car_brand,o.price,o.payment_type,o.status,o.state,o.order_state,o.create_time')
+                           ->order('create_time desc')
+                           ->where($where)
+                           ->page($pageNum,$pageCount)
+                           ->select();
+        if ($data === false){
+               $this->show(302, '没有数据');
             }else{
                 $this->show(200, 'success',$data);
             }

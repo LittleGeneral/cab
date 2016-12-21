@@ -770,7 +770,6 @@ final class CarownerController
     {
     }
 
-
     /**
      * @SWG\Get(
      *     path="/V1/Carowner/getOrderListDetailByCid",
